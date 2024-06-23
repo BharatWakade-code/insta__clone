@@ -1,7 +1,12 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insta_clone/Components/login_signup_btn.dart';
 import 'package:insta_clone/Components/login_text_field.dart';
+import 'package:insta_clone/utils/colors.dart';
+
 class LoginScreen extends StatefulWidget {
   void Function()? ontap;
   LoginScreen({super.key, required this.ontap});
@@ -59,82 +64,66 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(224, 224, 224, 1),
-      body: Center(
-        child: SingleChildScrollView(
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 32),
+          width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 50),
+              Flexible(
+                child: Container(),
+                flex: 2,
+              ),
               // Logo
-              Icon(Icons.android, size: 100),
-              SizedBox(height: 50),
-              Text("Welcome Back! You've Been Missed!"),
-              SizedBox(height: 50),
+              SvgPicture.asset(
+                'assets/images/ic_instagram.svg',
+                color: primaryColor,
+                height: 64,
+              ),
+              SizedBox(height: 30),
               // Username
               MyTextField(
                 controller: emailController,
-                hintText: "Username",
+                hintText: "Enter Your email",
                 obscureText: false,
+                textInputStyle: TextInputType.emailAddress,
+                isPass: false,
               ),
               SizedBox(height: 10),
               // Password
               MyTextField(
                 controller: passwordController,
-                hintText: "Password",
+                hintText: "Enter your passWord",
                 obscureText: true,
+                textInputStyle: TextInputType.emailAddress,
+                isPass: false,
               ),
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [Text("Forgot Password")],
-                ),
-              ),
-              SizedBox(height: 10),
+              SizedBox(height: 40),
               // Sign In Button
               LoginOrSignBtn(
                 ontap: signInUser,
                 text: "Sign In",
               ),
-              SizedBox(height: 10),
-              // Divider
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey[500],
-                      ),
-                    ),
-                    Text(
-                      'Or Continue With',
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey[500],
-                      ),
-                    ),
-                  ],
-                ),
+              Flexible(
+                child: Container(),
+                flex: 2,
               ),
-             
-              SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Not a Member?"),
-                  SizedBox(width: 5),
+                  Container(
+                    child: Text("Don't Have a acccount?"),
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                  ),
                   GestureDetector(
                     onTap: widget.ontap,
-                    child: Text(
-                      "Register Now",
-                      style: TextStyle(color: Colors.blue),
+                    child: Container(
+                      child: Text(
+                        " Sign Up",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 8),
                     ),
                   ),
                 ],

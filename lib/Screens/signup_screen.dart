@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:insta_clone/Components/login_signup_btn.dart';
 import 'package:insta_clone/Components/login_text_field.dart';
+import 'package:insta_clone/utils/colors.dart';
+
 class SignupScreen extends StatefulWidget {
   void Function()? ontap;
 
@@ -68,7 +71,6 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -76,33 +78,34 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               SizedBox(height: 30),
               // Logo
-              Icon(
-                Icons.android,
-                size: 100,
+              SvgPicture.asset(
+                'assets/images/ic_instagram.svg',
+                color: primaryColor,
+                height: 64,
               ),
-              const SizedBox(height: 30),
+
               Text("Welcome, You Can Register Here!"),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               // Email
-              MyTextField(
-                controller: emailController,
-                hintText: "Email",
-                obscureText: false,
-              ),
-              SizedBox(height: 10),
-              // Password
-              MyTextField(
-                controller: passwordController,
-                hintText: "Password",
-                obscureText: true,
-              ),
+              // MyTextField(
+              //   controller: emailController,
+              //   hintText: "Email",
+              //   obscureText: false,
+              // ),
+              // SizedBox(height: 10),
+              // // Password
+              // MyTextField(
+              //   controller: passwordController,
+              //   hintText: "Password",
+              //   obscureText: true,
+              // ),
               SizedBox(height: 10),
               // Confirm Password
-              MyTextField(
-                controller: confirmPasswordController,
-                hintText: "Confirm Password",
-                obscureText: true,
-              ),
+              // MyTextField(
+              //   controller: confirmPasswordController,
+              //   hintText: "Confirm Password",
+              //   obscureText: true,
+              // ),
               const SizedBox(height: 10),
 
               const Padding(
@@ -117,6 +120,7 @@ class _SignupScreenState extends State<SignupScreen> {
               LoginOrSignBtn(
                 ontap: signUpUser,
                 text: "Sign Up",
+                
               ),
               SizedBox(height: 10),
               // Divider
@@ -141,7 +145,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ],
                 ),
               ),
-              
+
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
