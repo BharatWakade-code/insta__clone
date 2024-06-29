@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -65,70 +64,70 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 32),
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Container(),
-                flex: 2,
-              ),
-              // Logo
-              SvgPicture.asset(
-                'assets/images/ic_instagram.svg',
-                color: primaryColor,
-                height: 64,
-              ),
-              SizedBox(height: 30),
-              // Username
-              MyTextField(
-                controller: emailController,
-                hintText: "Enter Your email",
-                obscureText: false,
-                textInputStyle: TextInputType.emailAddress,
-                isPass: false,
-              ),
-              SizedBox(height: 10),
-              // Password
-              MyTextField(
-                controller: passwordController,
-                hintText: "Enter your passWord",
-                obscureText: true,
-                textInputStyle: TextInputType.emailAddress,
-                isPass: false,
-              ),
-              SizedBox(height: 40),
-              // Sign In Button
-              LoginOrSignBtn(
-                ontap: signInUser,
-                text: "Sign In",
-              ),
-              Flexible(
-                child: Container(),
-                flex: 2,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    child: Text("Don't Have a acccount?"),
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  GestureDetector(
-                    onTap: widget.ontap,
-                    child: Container(
-                      child: Text(
-                        " Sign Up",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 40),
+                // Logo
+                SvgPicture.asset(
+                  'assets/images/ic_instagram.svg',
+                  color: primaryColor,
+                  height: 64,
+                ),
+                SizedBox(height: 200),
+                // Username
+                MyTextField(
+                  controller: emailController,
+                  hintText: "Enter your email",
+                  obscureText: false,
+                  textInputStyle: TextInputType.emailAddress,
+                  isPass: false,
+                ),
+                SizedBox(height: 10),
+                // Password
+                MyTextField(
+                  controller: passwordController,
+                  hintText: "Enter your password",
+                  obscureText: true,
+                  textInputStyle: TextInputType.emailAddress,
+                  isPass: false,
+                ),
+                SizedBox(height: 40),
+                // Sign In Button
+                LoginOrSignBtn(
+                  ontap: signInUser,
+                  text: "Sign In",
+                ),
+
+                SizedBox(
+                  height: 150,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Text("Don't Have a acccount?"),
                       padding: EdgeInsets.symmetric(vertical: 8),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    GestureDetector(
+                      onTap: widget.ontap,
+                      child: Container(
+                        child: Text(
+                          " Sign Up",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
       ),
