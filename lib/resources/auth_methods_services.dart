@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:insta_clone/models/User.dart' as model;
 import 'package:insta_clone/resources/storage_methods.dart';
 
 class AuthMethods {
@@ -26,15 +27,19 @@ class AuthMethods {
         String PhotoUrl = await StorageMethod()
             .uploadImageToStorage('ProfilePics', file, false);
 
-        await _firestore.collection('users').doc(cred.user!.uid).set({
-          'username': username,
-          'uid': cred.user!.uid,
-          'email': email,
-          'bio': bio,
-          'followers': [],
-          'following': [],
-          'photourl': PhotoUrl
-        });
+        model.User user = model.User(
+            email: email,
+            uid: cred.user!.uid,
+            photourl: PhotoUrl,
+            username: username,
+            bio: bio,
+            followers: [],
+            following: []);
+//Add USer
+        await _firestore
+            .collection('users')
+            .doc(cred.user!.uid)
+            .set(user.toJson());
 
         res = "Success";
       } else {
