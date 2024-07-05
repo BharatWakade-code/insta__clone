@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_clone/Screens/home_screen.dart';
+import 'package:insta_clone/Responsive/mobile_screen_layout.dart';
 import 'package:insta_clone/Screens/login_signup_toggle.dart';
+
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
 
@@ -12,7 +13,7 @@ class AuthPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomePage();
+            return MobileLayout();
           } else {
             return LoginOrRegisterPage();
           }
