@@ -1,9 +1,14 @@
 import 'dart:typed_data';
-
+import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:insta_clone/providers/user_provider.dart';
+import 'package:insta_clone/resources/firestore_methods.dart';
 import 'package:insta_clone/utils/colors.dart';
 import 'package:insta_clone/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
@@ -13,6 +18,7 @@ class AddPostScreen extends StatefulWidget {
 }
 
 class _AddPostScreenState extends State<AddPostScreen> {
+  TextEditingController discriptioncontroller = TextEditingController();
   Uint8List? _file;
   _selectimage(BuildContext context) async {
     return showDialog(
@@ -50,6 +56,22 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
+
+    void postImage(String uid, String username, String profImage) async {
+      try {
+        String res = await FirebaseMethods().uploadPost(
+            discriptioncontroller.text, _file!, uid, username, profImage);
+        if (res == "success") {
+          showSnackBar('Posted', context);
+        } else {
+          showSnackBar('Error in Posting', context);
+        }
+      } catch (e) {
+        e.toString();
+      }
+    }
+
     return _file == null
         ? Center(
             child: IconButton(
@@ -62,7 +84,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               backgroundColor: mobileBackgroundColor,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
-                onPressed: () {},
+                onPressed: () => Navigator.of(context).pop(),
               ),
               title: const Text(
                 "Post to",
@@ -70,7 +92,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
               ),
               actions: [
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      postImage(
+                        userProvider.getUser.uid,
+                        userProvider.getUser.username,
+                        userProvider.getUser.photoUrl,
+                      );
+                    },
                     child: const Text(
                       "Post",
                       style: TextStyle(
@@ -87,11 +115,31 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'https://w0.peakpx.com/wallpaper/95/952/HD-wallpaper-ms-dhoni-jersey-7-mahendra-singh-dhoni-mahi.jpg'),
-                    )
+                      backgroundImage: AssetImage('assets/images/profile.jpeg'),
+                      radius: 30,
+                    ),
+                    Container(
+                      height: 80,
+                      width: MediaQuery.sizeOf(context).width * 0.8,
+                      color: mobileBackgroundColor,
+                      child: TextField(
+                        selectionHeightStyle:
+                            BoxHeightStyle.includeLineSpacingBottom,
+                        controller: discriptioncontroller,
+                        decoration: InputDecoration(
+                          hintText: "Write a caption.....",
+                          border: InputBorder.none,
+                        ),
+                        maxLines: 8,
+                      ),
+                    ),
                   ],
                 ),
+                Container(
+                  height: 80,
+                  width: MediaQuery.sizeOf(context).width * 0.8,
+                  child: Image(image: MemoryImage(_file!)),
+                )
               ],
             ),
           );
