@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:insta_clone/Components/login_signup_btn.dart';
 import 'package:insta_clone/Components/login_text_field.dart';
 import 'package:insta_clone/Screens/home_screen.dart';
 import 'package:insta_clone/resources/auth_methods_services.dart';
@@ -61,10 +60,8 @@ class _SignupScreenState extends State<SignupScreen> {
         _isLoading = false;
       });
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context); // Close the loading dialog
       ShowErrorMsg(e.message ?? "An error occurred. Please try again.");
     } catch (e) {
-      Navigator.pop(context); // Close the loading dialog
       ShowErrorMsg("An error occurred. Please try again.");
     }
   }
@@ -188,9 +185,37 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const SizedBox(height: 40),
                 // Sign Up Button
-                LoginOrSignBtn(
-                  ontap: signUpUser,
-                  text: "Sign Up",
+                GestureDetector(
+                  onTap: signUpUser,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: ShapeDecoration(
+                      color: blueColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(4),
+                        ),
+                      ),
+                    ),
+                    child: Center(
+                      child: !_isLoading
+                          ? const Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : const Center(
+                              child: CircularProgressIndicator(
+                                color: primaryColor,
+                              ),
+                            ),
+                    ),
+                  ),
                 ),
                 SizedBox(height: 20),
                 Row(

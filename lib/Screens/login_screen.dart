@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:insta_clone/Components/login_signup_btn.dart';
 import 'package:insta_clone/Components/login_text_field.dart';
 import 'package:insta_clone/utils/colors.dart';
 
@@ -18,28 +17,27 @@ class _LoginScreenState extends State<LoginScreen> {
   // Controllers
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool _isLoading = false;
 
   // Sign In Method
   void signInUser() async {
     try {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      );
+      setState(() {
+        _isLoading = true;
+      });
 
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-
-      Navigator.pop(context);
+      setState(() {
+        _isLoading = false;
+      });
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
       ShowErrorMsg(e.code);
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
   //ShowErrorMsg
@@ -98,12 +96,39 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 40),
                 // Sign In Button
-                LoginOrSignBtn(
-                  ontap: signInUser,
-                  text: "Sign In",
+                GestureDetector(
+                  onTap: signInUser,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: ShapeDecoration(
+                      color: blueColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(4),
+                        ),
+                      ),
+                    ),
+                    child: Center(
+                      child: !_isLoading
+                          ? const Text(
+                              "Sign In",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : const Center(
+                              child: CircularProgressIndicator(
+                                color: primaryColor,
+                              ),
+                            ),
+                    ),
+                  ),
                 ),
-
-                SizedBox(
+                const SizedBox(
                   height: 150,
                 ),
                 Row(

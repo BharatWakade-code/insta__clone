@@ -57,7 +57,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
-
+    userProvider.refreshUser();
     void postImage(String uid, String username, String profImage) async {
       try {
         String res = await FirebaseMethods().uploadPost(
@@ -108,39 +108,59 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     ))
               ],
             ),
-            body: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: AssetImage('assets/images/profile.jpeg'),
-                      radius: 30,
-                    ),
-                    Container(
-                      height: 80,
-                      width: MediaQuery.sizeOf(context).width * 0.8,
-                      color: mobileBackgroundColor,
-                      child: TextField(
-                        selectionHeightStyle:
-                            BoxHeightStyle.includeLineSpacingBottom,
-                        controller: discriptioncontroller,
-                        decoration: InputDecoration(
-                          hintText: "Write a caption.....",
-                          border: InputBorder.none,
+            body: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        backgroundImage:
+                            AssetImage('assets/images/profile.jpeg'),
+                        radius: 30,
+                      ),
+                      Container(
+                        height: 80,
+                        width: MediaQuery.sizeOf(context).width * 0.8,
+                        color: mobileBackgroundColor,
+                        child: TextField(
+                          selectionHeightStyle:
+                              BoxHeightStyle.includeLineSpacingBottom,
+                          controller: discriptioncontroller,
+                          decoration: InputDecoration(
+                            hintText: "Write a caption.....",
+                            border: InputBorder.none,
+                          ),
+                          maxLines: 8,
                         ),
-                        maxLines: 8,
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.white,
+                        strokeAlign: BorderSide.strokeAlignCenter,
+                        style: BorderStyle.solid,
+                        width: BorderSide.strokeAlignCenter,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    width: MediaQuery.sizeOf(context).width * 0.8,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image(
+                        image: MemoryImage(_file!),
+                        fit: BoxFit
+                            .cover, // Use BoxFit.contain to fit the image within the container
                       ),
                     ),
-                  ],
-                ),
-                Container(
-                  height: 80,
-                  width: MediaQuery.sizeOf(context).width * 0.8,
-                  child: Image(image: MemoryImage(_file!)),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           );
   }
