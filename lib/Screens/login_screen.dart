@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     width: double.infinity,
                     alignment: Alignment.center,
-                    decoration: ShapeDecoration(
+                    decoration: const ShapeDecoration(
                       color: blueColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(

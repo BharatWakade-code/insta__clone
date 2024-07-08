@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insta_clone/Screens/feed/feed_screen.dart';
 import 'package:insta_clone/Screens/home_screen.dart';
 import 'package:insta_clone/Screens/posts/addpost.dart';
 import 'package:insta_clone/utils/colors.dart';
@@ -44,7 +45,7 @@ class _MobileLayoutState extends State<MobileLayout> {
       body: PageView(
         children: [
           Text("1"),
-          Text("2"),
+          FeedScreen(),
           AddPostScreen(),
           Text("2"),
           HomePage(),
