@@ -44,10 +44,10 @@ class _MobileLayoutState extends State<MobileLayout> {
     return Scaffold(
       body: PageView(
         children: [
-          Text("1"),
+          HomePage(),
           FeedScreen(),
           AddPostScreen(),
-          Text("2"),
+          Scaffold(),
           HomePage(),
         ],
         controller: pageController,
