@@ -127,29 +127,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
               padding: const EdgeInsets.all(10.0),
               child: isLoading ? const LinearProgressIndicator() : Container(),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/profile.jpeg'),
-                  radius: 30,
-                ),
-                Container(
-                  height: 80,
-                  width: MediaQuery.sizeOf(context).width * 0.8,
-                  color: mobileBackgroundColor,
-                  child: TextField(
-                    controller: discriptioncontroller,
-                    decoration: const InputDecoration(
-                      hintText: "Write a caption.....",
-                      border: InputBorder.none,
-                    ),
-                    maxLines: 8,
-                  ),
-                ),
-              ],
-            ),
             GestureDetector(
               onTap: () => _selectimage(context),
               child: Container(
@@ -163,7 +140,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
-                width: MediaQuery.sizeOf(context).width * 0.8,
+                width: MediaQuery.sizeOf(context).width,
                 child: _file == null
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(20),
@@ -184,14 +161,28 @@ class _AddPostScreenState extends State<AddPostScreen> {
             SizedBox(
               height: 50,
             ),
-            Container(
-              height: 80,
-              width: MediaQuery.sizeOf(context).width * 0.8,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.red),
-                color: mobileBackgroundColor,
-                boxShadow: List.filled(10, BoxShadow(color: Colors.red)),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/profile.jpeg'),
+                  radius: 30,
+                ),
+                Container(
+                  height: 80,
+                  width: MediaQuery.sizeOf(context).width - 120,
+                  color: mobileBackgroundColor,
+                  child: TextField(
+                    controller: discriptioncontroller,
+                    decoration: const InputDecoration(
+                      hintText: "Write a caption.....",
+                      border: InputBorder.none,
+                    ),
+                    maxLines: 8,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
