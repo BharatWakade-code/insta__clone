@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CategoryCard extends StatefulWidget {
-  const CategoryCard({super.key});
+  final DocumentSnapshot snap;
+
+  const CategoryCard({super.key, required this.snap});
 
   @override
   State<CategoryCard> createState() => _CategoryCardState();
@@ -10,44 +13,31 @@ class CategoryCard extends StatefulWidget {
 class _CategoryCardState extends State<CategoryCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      child: ListView.builder(
-        itemCount: 2,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Stack(
-              children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage(
-                    'assets/images/profile.jpeg',
-                  ),
-                  radius: 34,
-                ),
-                Positioned(
-                  left: 47,
-                  top: 45,
-                  child: Container(
-                    height: 20,
-                    width: 20,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.add,
-                      size: 15,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
+    var snap = widget.snap.data() as Map<String, dynamic>;
+    return Row(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+              Color.fromRGBO(89, 141, 250, 1),
+              Color.fromRGBO(218, 89, 250, 1),
+            ]),
+            border: Border.all(
+              color: Colors.transparent,
+              width: 2,
             ),
-          );
-        },
-      ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(40),
+            ),
+          ),
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(
+              snap['profimage'],
+            ),
+            radius: 34,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,7 +1,13 @@
+import 'dart:typed_data';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:insta_clone/utils/colors.dart';
+import 'package:insta_clone/utils/utils.dart';
 
 class Navbar_Home extends StatefulWidget {
   const Navbar_Home({super.key});
@@ -13,29 +19,42 @@ class Navbar_Home extends StatefulWidget {
 class _Navbar_HomeState extends State<Navbar_Home> {
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Container(
-        width: MediaQuery.sizeOf(context).width * 0.93,
-        child: TextField(
-          decoration: InputDecoration(
-            labelText: "Search",
-            hintStyle: TextStyle(
-              color: Colors.blueAccent,
-            ),
-            prefixIcon: Icon(Icons.search),
-            fillColor: Colors.white,
-            filled: true,
-            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
-            ),
-            border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blueAccent, width: 10.0),
-                borderRadius: BorderRadius.circular(25.0)),
-          ),
-        ),
-      )
-    ]);
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0, left: 20, bottom: 0, right: 20),
+      child: Container(
+          width: MediaQuery.sizeOf(context).width * 0.93,
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.menu,
+                  size: 25,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                'Home',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              Spacer(),
+              GestureDetector(
+                onTap: () async => await pickImage(ImageSource.camera),
+                child: Icon(
+                  Icons.camera,
+                  size: 25,
+                  color: Colors.black,
+                ),
+              )
+            ],
+          )),
+    );
   }
 }
