@@ -71,6 +71,9 @@ flutter:
     - family: MerriweatherRegular
       fonts:
         - asset: assets/fonts/Merriweather-Regular.ttf
+    - family: PoppinsRegular
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf    
 
   #
   # For details regarding fonts from package dependencies,

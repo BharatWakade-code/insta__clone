@@ -17,8 +17,9 @@ class _CategoryCardState extends State<CategoryCard> {
     return Row(
       children: [
         Container(
+          margin: EdgeInsets.only(left: 10),
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
+            gradient: const LinearGradient(colors: [
               Color.fromRGBO(89, 141, 250, 1),
               Color.fromRGBO(218, 89, 250, 1),
             ]),
@@ -26,13 +27,13 @@ class _CategoryCardState extends State<CategoryCard> {
               color: Colors.transparent,
               width: 2,
             ),
-            borderRadius: BorderRadius.all(
+            borderRadius: const BorderRadius.all(
               Radius.circular(40),
             ),
           ),
           child: CircleAvatar(
             backgroundImage: NetworkImage(
-              snap['profimage'],
+              snap['photoUrl'],
             ),
             radius: 34,
           ),

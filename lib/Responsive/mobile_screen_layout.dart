@@ -1,108 +1,105 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_clone/Screens/feed/feed_screen.dart';
 import 'package:insta_clone/Screens/home_screen.dart';
 import 'package:insta_clone/Screens/posts/addpost.dart';
-import 'package:insta_clone/utils/colors.dart';
 
-class MobileLayout extends StatefulWidget {
-  const MobileLayout({super.key});
+class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({super.key});
 
   @override
-  State<MobileLayout> createState() => _MobileLayoutState();
+  State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
-class _MobileLayoutState extends State<MobileLayout> {
-  int _page = 0;
-  late PageController pageController;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    pageController = PageController();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    pageController.dispose();
-  }
-
-  void NavigationTapped(int page) {
-    pageController.jumpToPage(page);
-  }
-
-  void onPageChanged(int page) {
-    setState(() {
-      _page = page;
-    });
-  }
-
+class _BottomNavBarState extends State<BottomNavBar> {
+  int currentindex = 0;
+  List screens = [
+    HomePage(),
+    Scaffold(),
+    AddPostScreen(),
+    Scaffold(),
+    Scaffold(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        children: [
-          HomePage(),
-          FeedScreen(),
-          AddPostScreen(),
-          Scaffold(),
-          HomePage(),
-        ],
-        controller: pageController,
-        physics: NeverScrollableScrollPhysics(),
-        onPageChanged: onPageChanged,
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: CupertinoTabBar(
-          backgroundColor: mobileBackgroundColor,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: _page == 0 ? primaryColor : secondaryColor,
-              ),
-              label: "",
-              backgroundColor: primaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.search,
-                color: _page == 1 ? primaryColor : secondaryColor,
-              ),
-              label: "",
-              backgroundColor: primaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.add,
-                color: _page == 2 ? primaryColor : secondaryColor,
-              ),
-              label: "",
-              backgroundColor: primaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.favorite,
-                color: _page == 3 ? primaryColor : secondaryColor,
-              ),
-              label: "",
-              backgroundColor: primaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                color: _page == 4 ? primaryColor : secondaryColor,
-              ),
-              label: "",
-              backgroundColor: primaryColor,
-            )
-          ],
-          onTap: NavigationTapped,
+      backgroundColor: Colors.white,
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            currentindex = 2;
+          });
+        },
+        shape: const CircleBorder(),
+        backgroundColor: Color.fromRGBO(53, 112, 236, 1),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 35,
         ),
       ),
+      bottomNavigationBar: BottomAppBar(
+        elevation: 1,
+        height: 60,
+        color: Color.fromRGBO(248, 250, 254, 1),
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 10,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  currentindex = 0;
+                });
+              },
+              icon: Icon(Icons.home_work_outlined,
+                  size: 30,
+                  color: currentindex == 0
+                      ? Color.fromRGBO(53, 112, 236, 1)
+                      : Colors.grey[400]),
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  currentindex = 1;
+                });
+              },
+              icon: Icon(Icons.mark_chat_unread,
+                  size: 30,
+                  color: currentindex == 1
+                      ? Color.fromRGBO(53, 112, 236, 1)
+                      : Colors.grey[400]),
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  currentindex = 3;
+                });
+              },
+              icon: Icon(Icons.favorite_border,
+                  size: 30,
+                  color: currentindex == 3
+                      ? Color.fromRGBO(53, 112, 236, 1)
+                      : Colors.grey[400]),
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  currentindex = 4;
+                });
+              },
+              icon: Icon(Icons.person,
+                  size: 30,
+                  color: currentindex == 4
+                      ? Color.fromRGBO(53, 112, 236, 1)
+                      : Colors.grey[400]),
+            ),
+          ],
+        ),
+      ),
+      body: screens[currentindex],
     );
   }
 }
