@@ -15,29 +15,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final user = FirebaseAuth.instance.currentUser;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'MerriweatherRegular',
-      ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SafeArea(
           top: true,
           child: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFFE5F7FF),
-                  Color(0xFFE5F7FF),
-                  Color(0xFFFFFFFF),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,

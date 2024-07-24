@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:insta_clone/Screens/home/post_card_user_details.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class PostCard extends StatefulWidget {
   final DocumentSnapshot snap;
@@ -11,7 +13,6 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-  
   @override
   Widget build(BuildContext context) {
     var snap = widget.snap.data() as Map<String, dynamic>;
@@ -23,7 +24,7 @@ class _PostCardState extends State<PostCard> {
             height: 300,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(
-                Radius.circular(30),
+                Radius.circular(15),
               ),
               color: Colors.white,
             ),
@@ -33,7 +34,7 @@ class _PostCardState extends State<PostCard> {
             height: 230,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(
-                Radius.circular(30),
+                Radius.circular(15),
               ),
               child: Image.network(
                 snap['posturl'],
@@ -50,8 +51,8 @@ class _PostCardState extends State<PostCard> {
               height: 200,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
                 ),
                 color: Colors.white,
               ),
@@ -75,31 +76,27 @@ class _PostCardState extends State<PostCard> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  snap['username'],
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(106, 81, 94, 1),
-                                      fontSize: 16),
-                                ),
-                              ],
+                            Text(
+                              snap['username'],
+                              style: TextStyle(
+                                  color: Color.fromRGBO(106, 81, 94, 1),
+                                  fontSize: 16),
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  "Nagpur ",
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(215, 189, 202, 1),
-                                      fontSize: 10),
-                                ),
-                                Text(
-                                  snap['datepublished'],
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(215, 189, 202, 1),
-                                      fontSize: 8),
-                                ),
-                              ],
+                            Text(
+                              "Nagpur ",
+                              style: TextStyle(
+                                  color: Color.fromRGBO(215, 189, 202, 1),
+                                  fontSize: 10),
+                            ),
+                            Text(
+                              timeago.format(
+                                  DateTime.parse(snap['datepublished'])
+                                      .toLocal()
+                                      .add(Duration(hours: 5, minutes: 30))),
+                              style: TextStyle(
+                                color: Color.fromRGBO(215, 189, 202, 1),
+                                fontSize: 8,
+                              ),
                             ),
                           ],
                         ),

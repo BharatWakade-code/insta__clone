@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_clone/Auth/auth_Page.dart';
+import 'package:insta_clone/Services/Auth/auth_Page.dart';
 import 'package:insta_clone/Responsive/mobile_screen_layout.dart';
 import 'package:insta_clone/Responsive/responsive_layout.dart';
 import 'package:insta_clone/Responsive/web_screen_layout.dart';

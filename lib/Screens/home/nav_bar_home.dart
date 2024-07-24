@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:insta_clone/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeNavbar extends StatefulWidget {
   const HomeNavbar({super.key});
@@ -11,15 +13,17 @@ class HomeNavbar extends StatefulWidget {
 class _HomeNavbarState extends State<HomeNavbar> {
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
+    userProvider.refreshUser();
     return Padding(
-      padding: const EdgeInsets.only(top: 35, left: 20, right: 20),
+      padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -30,7 +34,7 @@ class _HomeNavbarState extends State<HomeNavbar> {
                     ),
                   ),
                   Text(
-                    "Bharat ",
+                    "Bharat",
                     style: TextStyle(
                       fontSize: 28,
                       color: Color.fromRGBO(53, 112, 236, 1),
@@ -63,7 +67,7 @@ class _HomeNavbarState extends State<HomeNavbar> {
             ],
           ),
           SizedBox(
-            height: 25,
+            height: 15,
           ),
           Container(
             child: Text(

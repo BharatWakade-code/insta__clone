@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_clone/Components/login_text_field.dart';
-import 'package:insta_clone/Screens/home_screen.dart';
+import 'package:insta_clone/Screens/home/home_screen.dart';
 import 'package:insta_clone/resources/auth_methods_services.dart';
 import 'package:insta_clone/utils/colors.dart';
 import 'package:insta_clone/utils/utils.dart';

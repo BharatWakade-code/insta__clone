@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:insta_clone/Screens/home_screen.dart';
+import 'package:insta_clone/Screens/Chat/users_chat_screen.dart';
+import 'package:insta_clone/Screens/home/home_screen.dart';
 import 'package:insta_clone/Screens/posts/addpost.dart';
+import 'package:insta_clone/Screens/profile/create_profile.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -13,16 +15,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
   int currentindex = 0;
   List screens = [
     HomePage(),
-    Scaffold(),
+    UserChatScreen(),
     AddPostScreen(),
     Scaffold(),
-    Scaffold(),
+    CreateProfile(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
