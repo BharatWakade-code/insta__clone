@@ -68,7 +68,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   currentindex = 1;
                 });
               },
-              icon: Icon(Icons.mark_chat_unread,
+              icon: Icon(Icons.chat_bubble_outline_sharp,
                   size: 30,
                   color: currentindex == 1
                       ? Color.fromRGBO(53, 112, 236, 1)
