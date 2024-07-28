@@ -13,11 +13,12 @@ class ChatServices {
     final Timestamp timestamp = Timestamp.now();
 
     Messages newMessages = Messages(
-        senderID: currentUserID,
-        senderEmail: currentUserEmail,
-        receiverID: receiverID,
-        message: message,
-        timestamp: timestamp);
+      senderID: currentUserID,
+      senderEmail: currentUserEmail,
+      receiverID: receiverID,
+      message: message,
+      timestamp: timestamp,
+    );
 
     List<String> ids = [currentUserID, receiverID];
     ids.sort();
@@ -31,16 +32,17 @@ class ChatServices {
         .add(newMessages.toMap());
 
     ///    GetMessaages
-    Stream<QuerySnapshot> getMessages(String userID, otherUserID) {
-      List<String> ids = [userID, otherUserID];
-      ids.sort();
-      String chatRoomID = ids.join('_');
-      return _firestore
-          .collection("chat_rooms")
-          .doc(chatRoomID)
-          .collection("messages")
-          .orderBy("timestamp", descending: false)
-          .snapshots();
-    }
+  }
+
+  Stream<QuerySnapshot> getMessages(String userID, otherUserID) {
+    List<String> ids = [userID, otherUserID];
+    ids.sort();
+    String chatRoomID = ids.join('_');
+    return _firestore
+        .collection("chat_rooms")
+        .doc(chatRoomID)
+        .collection("messages")
+        .orderBy("timestamp", descending: false)
+        .snapshots();
   }
 }

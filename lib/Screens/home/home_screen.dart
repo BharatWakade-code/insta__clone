@@ -18,13 +18,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'UrbanistRegular',
+      ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SafeArea(
           top: true,
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: Colors.grey[50],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,

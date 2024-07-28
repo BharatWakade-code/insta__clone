@@ -32,6 +32,14 @@ class _CategoryCardState extends State<CategoryCard> {
                     color: Colors.transparent,
                     width: 2,
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 5,
+                      spreadRadius: 1,
+                      offset: Offset(2, 2),
+                    ),
+                  ],
                   borderRadius: const BorderRadius.all(
                     Radius.circular(40),
                   ),
