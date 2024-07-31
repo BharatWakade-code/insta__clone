@@ -26,8 +26,8 @@ class _UserListTileState extends State<UserListTile> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ChatboxScreen(
-                          receiverEmail:snap['username'] ,
-                          receiverID:snap['uid'] ,
+                          receiverEmail: snap['username'],
+                          receiverID: snap['uid'],
                         )),
               );
             },

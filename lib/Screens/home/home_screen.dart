@@ -50,12 +50,14 @@ class _HomePageState extends State<HomePage> {
                           child: CircularProgressIndicator(),
                         );
                       }
-                      return ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, int index) => CategoryCard(
-                                snap: snapshot.data!.docs[index],
-                              ));
+                      return snapshot.hasData
+                          ? ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, int index) => CategoryCard(
+                                    snap: snapshot.data!.docs[index],
+                                  ))
+                          : Text("No Data Found");
                     },
                   ),
                 ),
@@ -76,12 +78,14 @@ class _HomePageState extends State<HomePage> {
                           child: CircularProgressIndicator(),
                         );
                       }
-                      return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, int index) => PostCard(
-                                snap: snapshot.data!.docs[index],
-                              ));
+                      return snapshot.hasData
+                          ? ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, int index) => PostCard(
+                                    snap: snapshot.data!.docs[index],
+                                  ))
+                          : Text("No Data Found");
                     },
                   ),
                 ),

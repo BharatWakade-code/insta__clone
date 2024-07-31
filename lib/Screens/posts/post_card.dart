@@ -40,15 +40,25 @@ class _PostCardState extends State<PostCard> {
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 230,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(15),
-              ),
-              child: Image.network(
-                snap['posturl'],
-                fit: BoxFit.cover,
-              ),
-            ),
+            child: snap.isNotEmpty
+                ? ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(15),
+                    ),
+                    child: Image.network(
+                      snap['posturl'],
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(15),
+                    ),
+                    child: Image.asset(
+                      'assets/images/profile.jpeg', // Default image path
+                      fit: BoxFit.cover,
+                    ),
+                  ),
           ),
           Positioned(
             bottom: 0,

@@ -120,6 +120,7 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
           }
 
           return ListView(
+            shrinkWrap: true,
             children: snapshot.data!.docs
                 .map((doc) => _buildMessageItem(doc))
                 .toList(),
