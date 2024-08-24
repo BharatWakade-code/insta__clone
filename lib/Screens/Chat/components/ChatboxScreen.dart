@@ -8,6 +8,9 @@ import 'package:insta_clone/Services/Chat/chat_services.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:intl/intl.dart';
 
+import '../../../Services/PushNotification/PushNotificationService .dart';
+import '../../../Services/PushNotification/sendPushMessage.dart';
+
 class ChatboxScreen extends StatefulWidget {
   final String receiverEmail;
   final String receiverID;
@@ -30,8 +33,19 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
     if (sendmessageController.text.isNotEmpty) {
       await _chatServices.sendMessage(
           widget.receiverID, sendmessageController.text);
+
+      final token = await PushNotificationService().getToken();
+      if (token != null && token.isNotEmpty) {
+        await sendPushMessage(
+          body: sendmessageController.text,
+          recipientToken: token,
+          title: widget.receiverID,
+        );
+      } else {
+        print("Failed to get FCM token.");
+      }
       sendmessageController.clear();
-      print("Message Send Succesful");
+      print("Message Send Successful");
     }
   }
 
