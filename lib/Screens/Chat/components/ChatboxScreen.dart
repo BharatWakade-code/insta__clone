@@ -26,6 +26,7 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
   ChatServices chatServices = ChatServices();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController sendmessageController = TextEditingController();
+
   void sendMessage() async {
     if (sendmessageController.text.isNotEmpty) {
       await chatServices.sendMessage(
@@ -36,7 +37,7 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
         await sendPushMessage(
           body: sendmessageController.text,
           recipientToken: token,
-          title: widget.receiverEmail,
+          title: _auth.currentUser?.email as String,
         );
       } else {
         print("Failed to get FCM token.");
@@ -52,7 +53,8 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
+          padding:
+              const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -107,8 +109,9 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
                   )),
                 ),
                 style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'UrbanistBold',
+                  color: Color.fromRGBO(157, 89, 255, 1),
                 ),
               ),
             ],
@@ -188,7 +191,7 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
                   Text(
                     data['message'],
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 20,
                       color: Colors.white,
                       fontFamily: 'UrbanistRegular',
                       fontWeight: FontWeight.normal,
@@ -198,7 +201,7 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
                 Text(
                   timestamp,
                   style: const TextStyle(
-                    fontSize: 5,
+                    fontSize: 8,
                     color: Colors.white,
                     fontFamily: 'UrbanistRegular',
                     fontWeight: FontWeight.normal,

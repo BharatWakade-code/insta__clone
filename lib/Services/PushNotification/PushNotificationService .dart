@@ -3,11 +3,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 // Background message handler should be a top-level function
-Future<void> backgroundHandler(RemoteMessage message) async {}
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print(message.data.toString());
+  print(message.notification!.title);
+}
 
 class PushNotificationService {
   FirebaseMessaging fcm = FirebaseMessaging.instance;
@@ -93,30 +97,41 @@ class PushNotificationService {
   Future<void> init() async {
     // Ensure the icon is a PNG and placed correctly in drawable folder
     AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings(
+        const AndroidInitializationSettings(
             '@mipmap/ic_launcher'); // Change this line
     InitializationSettings initializationSettings =
         InitializationSettings(android: androidInitializationSettings);
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveBackgroundNotificationResponse: onNotificationTap,
+      onDidReceiveNotificationResponse: onNotificationTap,
+    );
   }
 
-  void showNotification(RemoteMessage message) {
-    AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('channelId', 'channelName',
-            channelDescription: '',
-            importance: Importance.max,
-            priority: Priority.high,
-            ticker: 'ticker');
+  // on tap local notification in foreground
+  static void onNotificationTap(NotificationResponse notificationResponse) {}
 
-    int notificationId = DateTime.now().millisecondsSinceEpoch ~/
-        1000; // Unique ID for each notification
+  void showNotification(RemoteMessage message) {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+      'SiskoChat',
+      'SiskoChatchannelName',
+      channelDescription: '',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+      ticker: 'ticker',
+      channelShowBadge: true,
+    );
+
+    int notificationId = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
+        const NotificationDetails(android: androidNotificationDetails);
 
     flutterLocalNotificationsPlugin.show(
         notificationId,
-        message.notification?.title ?? 'No Title', // Null check
-        message.notification?.body ?? 'No Body', // Null check
+        message.notification?.title ?? 'No Title',
+        message.notification?.body ?? 'No Body',
         notificationDetails,
         payload: 'not Present');
   }

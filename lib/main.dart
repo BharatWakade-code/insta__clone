@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +17,13 @@ void main() async {
   try {
     PushNotificationService pushNotificationService = PushNotificationService();
     await pushNotificationService.requestPermission();
+    await pushNotificationService.requestPermission();
+    FirebaseMessaging.onBackgroundMessage(backgroundHandler);
     await pushNotificationService.init();
     await pushNotificationService.initialize();
   } catch (e) {
     print('Error initializing push notifications: $e');
   }
-
   runApp(const MyApp());
 }
 
@@ -40,9 +43,23 @@ class _MyAppState extends State<MyApp> {
   }
 
   void notificationHandler() {
-    FirebaseMessaging.onMessage.listen((event) {
-      print(event.notification?.body);
-      PushNotificationService().showNotification(event);
+    FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+      if (event.notification != null) {
+        print(event.notification!.body);
+        PushNotificationService().showNotification(event);
+      }
+    });
+
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      if (message != null) {
+        PushNotificationService().showNotification(message);
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      PushNotificationService().showNotification(message);
     });
   }
 
@@ -57,10 +74,6 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: mobileBackgroundColor,
         ),
         home: const AuthPage(),
-        // home: const ResponsiveLayout(
-        //   mobileScreenLayout: MobileLayout(),
-        //   webScreenLayout: WebLayout(),
-        // ),
       ),
     );
   }

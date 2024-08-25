@@ -11,25 +11,25 @@ class NavBar extends StatelessWidget {
       children: [
         IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_rounded,
             color: Colors.black,
             size: 30,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
         Text(
           pageName,
-          style: TextStyle(
-            fontSize: 18,
+          style: const TextStyle(
+            fontSize: 20,
             fontFamily: 'UrbanistBold',
             color: Colors.black,
           ),
         ),
-        Spacer(),
-        Icon(
+        const Spacer(),
+        const Icon(
           Icons.more_horiz_rounded,
           color: Colors.black,
           size: 30,
