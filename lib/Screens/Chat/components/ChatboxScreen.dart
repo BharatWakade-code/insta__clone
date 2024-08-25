@@ -1,13 +1,10 @@
+// ignore_for_file: avoid_print
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:insta_clone/Screens/Chat/components/nav_bar.dart';
 import 'package:insta_clone/Services/Chat/chat_services.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:intl/intl.dart';
-
 import '../../../Services/PushNotification/PushNotificationService .dart';
 import '../../../Services/PushNotification/sendPushMessage.dart';
 
@@ -15,7 +12,7 @@ class ChatboxScreen extends StatefulWidget {
   final String receiverEmail;
   final String receiverID;
 
-  ChatboxScreen({
+  const ChatboxScreen({
     super.key,
     required this.receiverEmail,
     required this.receiverID,
@@ -26,20 +23,20 @@ class ChatboxScreen extends StatefulWidget {
 }
 
 class _ChatboxScreenState extends State<ChatboxScreen> {
-  ChatServices _chatServices = ChatServices();
+  ChatServices chatServices = ChatServices();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController sendmessageController = TextEditingController();
   void sendMessage() async {
     if (sendmessageController.text.isNotEmpty) {
-      await _chatServices.sendMessage(
+      await chatServices.sendMessage(
           widget.receiverID, sendmessageController.text);
-
-      final token = await PushNotificationService().getToken();
+      final token =
+          await PushNotificationService().getTokenForUID(widget.receiverID);
       if (token != null && token.isNotEmpty) {
         await sendPushMessage(
           body: sendmessageController.text,
           recipientToken: token,
-          title: widget.receiverID,
+          title: widget.receiverEmail,
         );
       } else {
         print("Failed to get FCM token.");
@@ -55,7 +52,7 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -94,17 +91,17 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   labelText: "Message",
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     color: Color.fromRGBO(200, 165, 250, 1),
                   ),
                   suffixIcon: IconButton(
                     onPressed: sendMessage,
-                    icon: Icon(Icons.send),
-                    color: Color.fromRGBO(157, 89, 255, 1),
+                    icon: const Icon(Icons.send),
+                    color: const Color.fromRGBO(157, 89, 255, 1),
                   ),
                   filled: true,
                   fillColor: Colors.grey[50],
-                  focusedBorder: OutlineInputBorder(
+                  focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(
                     color: Color.fromRGBO(157, 89, 255, 1),
                   )),
@@ -122,9 +119,9 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
   }
 
   Widget _buildMessageList() {
-    String SenderID = _auth.currentUser!.uid;
+    String senderID = _auth.currentUser!.uid;
     return StreamBuilder(
-        stream: _chatServices.getMessages(widget.receiverID, SenderID),
+        stream: chatServices.getMessages(widget.receiverID, senderID),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Text("Error");
@@ -154,26 +151,26 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
           margin: const EdgeInsets.only(bottom: 5),
           decoration: BoxDecoration(
             borderRadius: isCurrentUser
-                ? BorderRadius.only(
+                ? const BorderRadius.only(
                     topLeft: Radius.circular(16.0),
                     topRight: Radius.circular(8.0),
                     bottomLeft: Radius.circular(16.0),
                     bottomRight: Radius.circular(16.0),
                   )
-                : BorderRadius.only(
+                : const BorderRadius.only(
                     topLeft: Radius.circular(8.0),
                     topRight: Radius.circular(16.0),
                     bottomLeft: Radius.circular(16.0),
                     bottomRight: Radius.circular(16.0),
                   ),
             gradient: isCurrentUser
-                ? LinearGradient(
+                ? const LinearGradient(
                     colors: [
                       Color.fromRGBO(114, 16, 255, 1),
                       Color.fromRGBO(157, 89, 255, 1),
                     ],
                   )
-                : LinearGradient(
+                : const LinearGradient(
                     colors: [
                       Color.fromRGBO(255, 77, 103, 1),
                       Color.fromRGBO(255, 131, 149, 1),
