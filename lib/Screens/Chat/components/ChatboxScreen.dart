@@ -26,6 +26,7 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
   ChatServices chatServices = ChatServices();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController sendmessageController = TextEditingController();
+  final currentuser = FirebaseAuth.instance.currentUser;
 
   void sendMessage() async {
     if (sendmessageController.text.isNotEmpty) {
@@ -37,7 +38,7 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
         await sendPushMessage(
           body: sendmessageController.text,
           recipientToken: token,
-          title: _auth.currentUser?.email as String,
+          title: currentuser as String,
         );
       } else {
         print("Failed to get FCM token.");
