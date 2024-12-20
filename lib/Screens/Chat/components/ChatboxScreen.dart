@@ -19,6 +19,31 @@ class ChatboxScreen extends StatefulWidget {
 }
 
 class _ChatboxScreenState extends State<ChatboxScreen> {
+  ChatServices chatServices = ChatServices();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  TextEditingController sendmessageController = TextEditingController();
+  final currentuser = FirebaseAuth.instance.currentUser;
+
+  void sendMessage() async {
+    if (sendmessageController.text.isNotEmpty) {
+      await chatServices.sendMessage(
+          widget.receiverID, sendmessageController.text);
+      final token =
+          await PushNotificationService().getTokenForUID(widget.receiverID);
+      if (token != null && token.isNotEmpty) {
+        await sendPushMessage(
+          body: sendmessageController.text,
+          recipientToken: token,
+          title: 'Message from ${widget.receiverEmail.toString()}' ,
+        );
+      } else {
+        print("Failed to get FCM token.");
+      }
+      sendmessageController.clear();
+      print("Message Send Successful");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var snap = widget.snap as Map<String, dynamic>;
