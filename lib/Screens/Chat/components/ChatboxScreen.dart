@@ -38,7 +38,7 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
         await sendPushMessage(
           body: sendmessageController.text,
           recipientToken: token,
-          title: currentuser as String,
+          title: 'Message from ${widget.receiverEmail.toString()}' ,
         );
       } else {
         print("Failed to get FCM token.");
