@@ -1,46 +1,41 @@
+// ignore_for_file: avoid_print
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_clone/Screens/Chat/components/SelfMessage.dart';
 import 'package:insta_clone/Screens/Chat/components/nav_bar.dart';
 
-import '../../../Services/Chat/chat_services.dart';
-
 class ChatboxScreen extends StatefulWidget {
-  final Map<String, dynamic> snap;
-  ChatboxScreen({super.key, required this.snap});
+  final String receiverEmail;
+  final String receiverID;
+
+  const ChatboxScreen({
+    super.key,
+    required this.receiverEmail,
+    required this.receiverID,
+  });
 
   @override
   State<ChatboxScreen> createState() => _ChatboxScreenState();
 }
 
 class _ChatboxScreenState extends State<ChatboxScreen> {
-  TextEditingController sendMessageController = TextEditingController();
-  ChatServices _chatServices = ChatServices();
-
   @override
   Widget build(BuildContext context) {
     var snap = widget.snap as Map<String, dynamic>;
-    void sendMessage() async {
-      if (sendMessageController.text.isNotEmpty) {
-        await _chatServices.sendMessage(
-            snap['username'], sendMessageController.text);
-        print("Done");
-      }
-    }
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+          padding: EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               NavBar(
-                pageName: snap['username'],
+                pageName: widget.receiverEmail,
               ),
-              SizedBox(
-                height: 24,
+              const SizedBox(
+                height: 15,
               ),
               Center(
                 child: Container(
@@ -62,32 +57,108 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 24,
+              const SizedBox(
+                height: 15,
               ),
               SelfMessages(),
-              Spacer(),
-              TextField(
-                controller: sendMessageController,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  suffixIcon: GestureDetector(
-                    onTap: sendMessage,
-                    child: Icon(
-                      Icons.send,
-                    ),
-                  ),
-                  hintText: 'Message',
-                  helperStyle: TextStyle(
-                    fontFamily: 'UrbanistBold',
-                  ),
-                  hintStyle: TextStyle(color: Colors.grey[400]),
-                ),
-              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildMessageList() {
+    String senderID = _auth.currentUser!.uid;
+    return StreamBuilder(
+        stream: chatServices.getMessages(widget.receiverID, senderID),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Text("Error");
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Text("Loading...");
+          }
+
+          return ListView(
+            shrinkWrap: true,
+            children: snapshot.data!.docs
+                .map((doc) => _buildMessageItem(doc))
+                .toList(),
+          );
+        });
+  }
+
+  Widget _buildMessageItem(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    var timestamp = timeago.format(data['timestamp'].toDate());
+    bool isCurrentUser = data['senderID'] == _auth.currentUser!.uid;
+    return Column(
+      crossAxisAlignment:
+          isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(bottom: 5),
+          decoration: BoxDecoration(
+            borderRadius: isCurrentUser
+                ? const BorderRadius.only(
+                    topLeft: Radius.circular(16.0),
+                    topRight: Radius.circular(8.0),
+                    bottomLeft: Radius.circular(16.0),
+                    bottomRight: Radius.circular(16.0),
+                  )
+                : const BorderRadius.only(
+                    topLeft: Radius.circular(8.0),
+                    topRight: Radius.circular(16.0),
+                    bottomLeft: Radius.circular(16.0),
+                    bottomRight: Radius.circular(16.0),
+                  ),
+            gradient: isCurrentUser
+                ? const LinearGradient(
+                    colors: [
+                      Color.fromRGBO(114, 16, 255, 1),
+                      Color.fromRGBO(157, 89, 255, 1),
+                    ],
+                  )
+                : const LinearGradient(
+                    colors: [
+                      Color.fromRGBO(255, 77, 103, 1),
+                      Color.fromRGBO(255, 131, 149, 1),
+                    ],
+                  ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: isCurrentUser
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+              children: [
+                Wrap(children: [
+                  Text(
+                    data['message'],
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontFamily: 'UrbanistRegular',
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ]),
+                Text(
+                  timestamp,
+                  style: const TextStyle(
+                    fontSize: 8,
+                    color: Colors.white,
+                    fontFamily: 'UrbanistRegular',
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

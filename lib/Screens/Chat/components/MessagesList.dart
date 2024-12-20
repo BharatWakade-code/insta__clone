@@ -22,12 +22,14 @@ class _MessagesListState extends State<MessagesList> {
               child: CircularProgressIndicator(),
             );
           }
-          return  ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, int index) => UserListTile(
-                    snap: snapshot.data!.docs[index],
-                  ));
+          return snapshot.hasData
+              ? ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, int index) => UserListTile(
+                        snap: snapshot.data!.docs[index],
+                      ))
+              : Text("No Data Found");
         },
       ),
     );

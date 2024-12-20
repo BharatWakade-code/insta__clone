@@ -13,8 +13,9 @@ class ProfileNavbar extends StatefulWidget {
 class _ProfileNavbarState extends State<ProfileNavbar> {
   @override
   Widget build(BuildContext context) {
-    // final UserProvider userProvider = Provider.of<UserProvider>(context);
-    // userProvider.refreshUser();
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
+    final user = userProvider.getUser.username;
+    userProvider.refreshUser();
     return Padding(
       padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
       child: Column(
@@ -30,7 +31,7 @@ class _ProfileNavbarState extends State<ProfileNavbar> {
               ),
               Spacer(),
               Text(
-                "@Sisko",
+                "@$user",
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'UrbanistBold',

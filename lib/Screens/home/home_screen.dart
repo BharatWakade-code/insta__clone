@@ -18,13 +18,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'UrbanistRegular',
+      ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SafeArea(
           top: true,
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: Colors.grey[50],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -47,12 +50,14 @@ class _HomePageState extends State<HomePage> {
                           child: CircularProgressIndicator(),
                         );
                       }
-                      return ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, int index) => CategoryCard(
-                                snap: snapshot.data!.docs[index],
-                              ));
+                      return snapshot.hasData
+                          ? ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, int index) => CategoryCard(
+                                    snap: snapshot.data!.docs[index],
+                                  ))
+                          : Text("No Data Found");
                     },
                   ),
                 ),
@@ -73,12 +78,14 @@ class _HomePageState extends State<HomePage> {
                           child: CircularProgressIndicator(),
                         );
                       }
-                      return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, int index) => PostCard(
-                                snap: snapshot.data!.docs[index],
-                              ));
+                      return snapshot.hasData
+                          ? ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, int index) => PostCard(
+                                    snap: snapshot.data!.docs[index],
+                                  ))
+                          : Text("No Data Found");
                     },
                   ),
                 ),
