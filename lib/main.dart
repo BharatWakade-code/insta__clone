@@ -3,7 +3,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_clone/Services/Auth/auth_Page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insta_clone/Screens/Auth/cubit/auth_Page.dart';
+import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
+import 'package:insta_clone/Screens/Heroes/cubit/superhero_cubit.dart';
+import 'package:insta_clone/Screens/home/home_cubit.dart';
 import 'package:insta_clone/firebase_options.dart';
 import 'package:insta_clone/providers/user_provider.dart';
 import 'package:insta_clone/utils/colors.dart';
@@ -65,14 +69,21 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthCubit(),
+        ),
+        BlocProvider(
+          create: (context) => SuperheroCubit(),
+        ),
+        BlocProvider(
+          create: (context) => HomeCubit(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Insta Clone',
-        theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: mobileBackgroundColor,
-        ),
         home: const AuthPage(),
       ),
     );

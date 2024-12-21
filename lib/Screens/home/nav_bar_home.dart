@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
 import 'package:insta_clone/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -12,9 +13,7 @@ class HomeNavbar extends StatefulWidget {
 
 class _HomeNavbarState extends State<HomeNavbar> {
   @override
-  Widget build(BuildContext context) {
-    final UserProvider userProvider = Provider.of<UserProvider>(context);
-    userProvider.refreshUser();
+  Widget build(BuildContext context) {    
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,

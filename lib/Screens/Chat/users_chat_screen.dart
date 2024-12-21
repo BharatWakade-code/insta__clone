@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insta_clone/Screens/Chat/components/MessagesList.dart';
 import 'package:insta_clone/Screens/Chat/components/nav_bar.dart';
-import 'package:insta_clone/Screens/Chat/components/search.dart';
+import 'package:insta_clone/Components/search.dart';
 
 class UserChatScreen extends StatefulWidget {
   const UserChatScreen({super.key});
@@ -21,9 +21,6 @@ class _UserChatScreenState extends State<UserChatScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              NavBar(
-                pageName: 'Messages',
-              ),
               SizedBox(
                 height: 24,
               ),

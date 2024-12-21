@@ -17,66 +17,63 @@ class _UserListTileState extends State<UserListTile> {
   @override
   Widget build(BuildContext context) {
     var snap = widget.snap.data() as Map<String, dynamic>;
-    final UserProvider userProvider = Provider.of<UserProvider>(context);
-    userProvider.refreshUser();
-    return snap['username'] != userProvider.getUser.username
-        ? GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ChatboxScreen(
-                          receiverEmail: snap['username'],
-                          receiverID: snap['uid'],
-                        )),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          snap['photoUrl'],
-                        ),
-                        radius: 30,
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            snap['username'],
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontFamily: 'UrbanistRegular',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            'Hii ..Sisko',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.grey[700],
-                              fontFamily: 'UrbanistRegular',
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ChatboxScreen(
+                    receiverEmail: snap['username'],
+                    receiverID: snap['uid'],
+                  )),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    snap['photoUrl'],
                   ),
-                ],
-              ),
+                  radius: 30,
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      snap['username'],
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontFamily: 'UrbanistRegular',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Hii ..Sisko',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Colors.grey[700],
+                        fontFamily: 'UrbanistRegular',
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
-          )
-        : Container();
+          ],
+        ),
+      ),
+    );
   }
 }

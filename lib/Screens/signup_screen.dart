@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_clone/Components/login_text_field.dart';
 import 'package:insta_clone/Screens/home/home_screen.dart';
@@ -114,11 +113,7 @@ class _SignupScreenState extends State<SignupScreen> {
               children: [
                 SizedBox(height: 40),
                 // Logo
-                SvgPicture.asset(
-                  'assets/images/ic_instagram.svg',
-                  color: primaryColor,
-                  height: 64,
-                ),
+
                 SizedBox(height: 20),
                 Stack(
                   children: [

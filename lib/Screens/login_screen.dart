@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insta_clone/Components/login_text_field.dart';
 import 'package:insta_clone/utils/colors.dart';
 
@@ -71,11 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 SizedBox(height: 40),
                 // Logo
-                SvgPicture.asset(
-                  'assets/images/ic_instagram.svg',
-                  color: primaryColor,
-                  height: 64,
-                ),
+            
                 SizedBox(height: 200),
                 // Username
                 MyTextField(
