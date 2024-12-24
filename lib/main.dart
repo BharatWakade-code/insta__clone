@@ -81,10 +81,10 @@ class _MyAppState extends State<MyApp> {
           create: (context) => HomeCubit(),
         ),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Insta Clone',
-        home: const AuthPage(),
+        home: AuthPage(),
       ),
     );
   }

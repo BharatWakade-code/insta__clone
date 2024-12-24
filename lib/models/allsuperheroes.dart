@@ -48,6 +48,8 @@ class Superhero {
       'images': images?.toJson(),
     };
   }
+
+  toLowerCase() {}
 }
 
 class Powerstats {

@@ -24,13 +24,22 @@ class SuperheroCubit extends Cubit<SuperheroState> {
           return Superhero.fromJson(item);
         }).toList();
         allSuperHeroes = superHeroes;
-        emit(SuperHeroSuccesful(
-            msg: response.statusMessage ?? 'Data fetched successfully'));
+        emit(SuperHeroLoaded(heroesList: allSuperHeroes));
       } else {
         emit(SuperHeroError(msg: response.statusMessage ?? 'Data fetch error'));
       }
     } catch (e) {
       emit(SuperHeroError(msg: 'Error fetching superheroes: $e'));
     }
+  }
+
+  Future<List<Superhero>?> searchSuperHeroes(String query) async {
+    emit(SuperHeroLoading());
+    final filteredHeroes = allSuperHeroes?.where((hero) {
+      final matches = hero.name.toLowerCase().contains(query.toLowerCase());
+      return matches;
+    }).toList();
+    emit(SuperHeroLoaded(heroesList: filteredHeroes));
+    return filteredHeroes;
   }
 }
