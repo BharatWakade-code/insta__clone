@@ -1,24 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:insta_clone/Components/login_text_field.dart';
 import 'package:insta_clone/utils/colors.dart';
 
 class LoginScreen extends StatefulWidget {
-  void Function()? ontap;
-  LoginScreen({super.key, required this.ontap});
+  final void Function()? ontap;
+  LoginScreen({Key? key, required this.ontap}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // Controllers
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _isLoading = false;
 
-  // Sign In Method
   void signInUser() async {
     try {
       setState(() {
@@ -29,124 +26,136 @@ class _LoginScreenState extends State<LoginScreen> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+
       setState(() {
         _isLoading = false;
       });
     } on FirebaseAuthException catch (e) {
-      ShowErrorMsg(e.code);
+      ShowErrorMsg(e.message ?? "An error occurred");
       setState(() {
         _isLoading = false;
       });
     }
   }
-  //ShowErrorMsg
 
   void ShowErrorMsg(String message) {
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Colors.grey[300],
-            title: Center(
-              child: Text(
-                message,
-                style: TextStyle(color: Colors.black),
-              ),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Center(
+            child: Text(
+              message,
+              style: TextStyle(color: Colors.redAccent, fontSize: 16),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 40),
-                // Logo
-            
-                SizedBox(height: 200),
-                // Username
-                MyTextField(
-                  controller: emailController,
-                  hintText: "Enter your email",
-                  obscureText: false,
-                  textInputStyle: TextInputType.emailAddress,
-                  isPass: false,
-                ),
-                SizedBox(height: 10),
-                // Password
-                MyTextField(
-                  controller: passwordController,
-                  hintText: "Enter your password",
-                  obscureText: true,
-                  textInputStyle: TextInputType.emailAddress,
-                  isPass: false,
-                ),
-                SizedBox(height: 40),
-                // Sign In Button
-                GestureDetector(
-                  onTap: signInUser,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    decoration: const ShapeDecoration(
-                      color: blueColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(4),
-                        ),
-                      ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Logo
+                  Image.asset(
+                    'assets/images/app_logo.png',
+                    height: 80,
+                  ),
+                  const SizedBox(height: 60),
+                  // Welcome Text
+                  const Text(
+                    "Welcome Back!",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
                     ),
-                    child: Center(
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Log in to your account",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  // Email Input
+                  MyTextField(
+                    controller: emailController,
+                    hintText: "Enter your email",
+                    obscureText: false,
+                    textInputStyle: TextInputType.emailAddress,
+                    isPass: false,
+                  ),
+                  const SizedBox(height: 20),
+                  // Password Input
+                  MyTextField(
+                    controller: passwordController,
+                    hintText: "Enter your password",
+                    obscureText: true,
+                    textInputStyle: TextInputType.visiblePassword,
+                    isPass: true,
+                  ),
+                  const SizedBox(height: 40),
+                  // Sign In Button
+                  GestureDetector(
+                    onTap: signInUser,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: blueColor,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                       child: !_isLoading
                           ? const Text(
                               "Sign In",
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: 16,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
                             )
-                          : const Center(
-                              child: CircularProgressIndicator(
-                                color: primaryColor,
-                              ),
+                          : const CircularProgressIndicator(
+                              color: Colors.white,
                             ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 150,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Text("Don't Have a acccount?"),
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                    ),
-                    GestureDetector(
-                      onTap: widget.ontap,
-                      child: Container(
-                        child: Text(
+                  const SizedBox(height: 20),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Don't have an account?"),
+                      GestureDetector(
+                        onTap: widget.ontap,
+                        child: const Text(
                           " Sign Up",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: blueColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 8),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
