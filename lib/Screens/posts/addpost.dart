@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:insta_clone/providers/user_provider.dart';
 import 'package:insta_clone/resources/firestore_methods.dart';
 import 'package:insta_clone/utils/colors.dart';
 import 'package:insta_clone/utils/utils.dart';
@@ -61,8 +60,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider = Provider.of<UserProvider>(context);
-    userProvider.refreshUser();
 
     void postImage(String uid, String username, String profImage) async {
       try {
@@ -103,11 +100,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              postImage(
-                userProvider.getUser.uid,
-                userProvider.getUser.username,
-                userProvider.getUser.photoUrl,
-              );
+              // postImage(
+              //   userProvider.getUser.uid,
+              //   userProvider.getUser.username,
+              //   userProvider.getUser.photoUrl,
+              // );
             },
             child: const Text(
               "Post",

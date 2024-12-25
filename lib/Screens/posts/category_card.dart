@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
-import 'package:insta_clone/providers/user_provider.dart';
-import 'package:provider/provider.dart';
 
 class CategoryCard extends StatefulWidget {
   final DocumentSnapshot snap;

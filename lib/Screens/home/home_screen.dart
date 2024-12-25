@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
 import 'package:insta_clone/Screens/home/nav_bar_home.dart';
 import 'package:insta_clone/Screens/posts/category_card.dart';
 import 'package:insta_clone/Screens/posts/post_card.dart';
-import 'package:insta_clone/utils/utils.dart';
 
 import 'home_cubit.dart';
 
@@ -21,8 +18,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    context.read<AuthCubit>().getUserDetails();
-    context.read<AuthCubit>().refreshUser();
 
     return Scaffold(
       body: SafeArea(
@@ -38,9 +33,6 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Navbar
-                  const HomeNavbar(),
-                  // ListView for profiles
                   SizedBox(
                     height: 100,
                     child: StreamBuilder(

@@ -1,4 +1,10 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:insta_clone/Screens/Chat/users_chat_screen.dart';
+import 'package:insta_clone/Screens/Heroes/cubit/superheroscreen.dart';
+import 'package:insta_clone/Screens/home/home_screen.dart';
+import 'package:insta_clone/Screens/profile/create_profile.dart';
+import 'package:insta_clone/Services/Auth/auth_services.dart';
 import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,30 +18,14 @@ class AuthCubit extends Cubit<AuthState> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  int selectedIndex = 0;
 
-  // get user details
-  Future<model.User> getUserDetails() async {
-    User currentUser = _auth.currentUser!;
-
-    DocumentSnapshot documentSnapshot =
-        await _firestore.collection('users').doc(currentUser.uid).get();
-
-    return model.User.fromSnap(documentSnapshot);
-  }
-
-  model.User? _user;
-  model.User get getUser {
-    if (_user == null) {
-      throw Exception("User is not initialized");
-    }
-    return _user!;
-  }
-
-  Future<void> refreshUser() async {
+  Future<void> fetchUserDetails() async {
     try {
-      _user = await getUserDetails();
+      final currentUser = await AuthSevices().getUserDetails();
+      emit(Userloaded(username: currentUser.username));
     } catch (e) {
-      
+      print(e.toString());
     }
   }
 

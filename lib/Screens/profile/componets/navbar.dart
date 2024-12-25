@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_clone/providers/user_provider.dart';
+import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
 import 'package:provider/provider.dart';
 
 class ProfileNavbar extends StatefulWidget {
@@ -12,10 +12,13 @@ class ProfileNavbar extends StatefulWidget {
 
 class _ProfileNavbarState extends State<ProfileNavbar> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider = Provider.of<UserProvider>(context);
-    final user = userProvider.getUser.username;
-    userProvider.refreshUser();
+
     return Padding(
       padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
       child: Column(
@@ -31,7 +34,7 @@ class _ProfileNavbarState extends State<ProfileNavbar> {
               ),
               Spacer(),
               Text(
-                "@$user",
+                "@",
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'UrbanistBold',

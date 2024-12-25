@@ -6,12 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_clone/Screens/Auth/cubit/auth_Page.dart';
 import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
+import 'package:insta_clone/Screens/Chat/chat_cubit.dart';
 import 'package:insta_clone/Screens/Heroes/cubit/superhero_cubit.dart';
 import 'package:insta_clone/Screens/home/home_cubit.dart';
+import 'package:insta_clone/Screens/profile/profile_cubit.dart';
 import 'package:insta_clone/firebase_options.dart';
-import 'package:insta_clone/providers/user_provider.dart';
-import 'package:insta_clone/utils/colors.dart';
-import 'package:provider/provider.dart';
 import 'Services/PushNotification/PushNotificationService .dart';
 
 void main() async {
@@ -79,6 +78,12 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => HomeCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ProfileCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ChatCubit(),
         ),
       ],
       child: const MaterialApp(

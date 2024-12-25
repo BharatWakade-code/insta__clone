@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
 
 class CirccularandName extends StatefulWidget {
   const CirccularandName({super.key});
@@ -8,6 +10,11 @@ class CirccularandName extends StatefulWidget {
 }
 
 class _CirccularandNameState extends State<CirccularandName> {
+  @override
+  void initState() {
+    super.initState();   
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
