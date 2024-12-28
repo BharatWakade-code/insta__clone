@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_clone/Screens/Chat/users_chat_screen.dart';
-import 'package:insta_clone/Screens/Heroes/cubit/superheroscreen.dart';
+import 'package:insta_clone/Screens/Heroes/superheroscreen.dart';
 import 'package:insta_clone/Screens/home/home_screen.dart';
 import 'package:insta_clone/Screens/profile/create_profile.dart';
 import 'package:insta_clone/Services/Auth/auth_services.dart';

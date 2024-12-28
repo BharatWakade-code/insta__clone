@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
 import 'package:insta_clone/Screens/Chat/users_chat_screen.dart';
-import 'package:insta_clone/Screens/Heroes/cubit/superheroscreen.dart';
+import 'package:insta_clone/Screens/Heroes/superheroscreen.dart';
 import 'package:insta_clone/Screens/home/home_screen.dart';
 import 'package:insta_clone/Screens/login_signup_toggle.dart';
 import 'package:insta_clone/Screens/posts/addpost.dart';
@@ -44,11 +44,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   // Define the screens list explicitly as List<Widget>
   List<Widget> screens = [
-    SuperHeroScreen(),
+    const SuperHeroScreen(),
     UserChatScreen(),
-    HomePage(),
+    const HomePage(),
     // AddPostScreen(),
-    CreateProfile(),
+    const CreateProfile(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         appBarTitle = 'Messages';
         break;
       case 2:
-        appBarTitle = 'Search';
+        appBarTitle = 'Posts';
         break;
       case 3:
         appBarTitle = 'Profile';
@@ -82,8 +82,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
         ),
         actions: [
-          IconButton(
-              onPressed: () {}, icon: const Icon(Icons.notifications))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))
         ],
       ),
       backgroundColor: Colors.white,
@@ -99,16 +98,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ),
         child: SafeArea(
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
             child: GNav(
               rippleColor: Colors.grey[300]!,
               hoverColor: Colors.grey[100]!,
               gap: 8,
               activeColor: Colors.black,
               iconSize: 24,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               duration: const Duration(milliseconds: 400),
               tabBackgroundColor: Colors.grey[100]!,
               color: Colors.black,
@@ -122,8 +119,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   text: 'Chat',
                 ),
                 GButton(
-                  icon: Icons.search,
-                  text: 'Search',
+                  icon: Icons.post_add_sharp,
+                  text: 'Posts',
                 ),
                 GButton(
                   icon: Icons.person_2,

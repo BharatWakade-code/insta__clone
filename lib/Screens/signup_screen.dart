@@ -103,149 +103,146 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blue, Colors.purple],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 40),
-                // Logo
-                Image.asset(
-                  'assets/images/app_logo.png',
-                  color: Colors.white,
-                  height: 64,
-                ),
-                SizedBox(height: 20),
-                Stack(
-                  children: [
-                    _image != null
-                        ? CircleAvatar(
-                            backgroundImage: MemoryImage(_image!),
-                            radius: 64,
-                          )
-                        : CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/profile.jpeg'),
-                            radius: 64,
-                          ),
-                    Positioned(
-                      bottom: -10,
-                      left: 80,
-                      child: IconButton(
-                        onPressed: selectimage,
-                        icon: Icon(
-                          Icons.add_a_photo,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                // Username
-                MyTextField(
-                  controller: usernameController,
-                  hintText: "Enter your username",
-                  obscureText: false,
-                  textInputStyle: TextInputType.text,
-                  isPass: false,
-                ),
-                SizedBox(height: 10),
-                MyTextField(
-                  controller: emailController,
-                  hintText: "Enter your email",
-                  obscureText: false,
-                  textInputStyle: TextInputType.emailAddress,
-                  isPass: false,
-                ),
-                SizedBox(height: 10),
-                MyTextField(
-                  controller: passwordController,
-                  hintText: "Enter your password",
-                  obscureText: true,
-                  textInputStyle: TextInputType.visiblePassword,
-                  isPass: false,
-                ),
-                SizedBox(height: 10),
-                MyTextField(
-                  controller: confirmPasswordController,
-                  hintText: "Confirm your password",
-                  obscureText: true,
-                  textInputStyle: TextInputType.visiblePassword,
-                  isPass: false,
-                ),
-                SizedBox(height: 10),
-                MyTextField(
-                  controller: bioController,
-                  hintText: "Enter your bio",
-                  obscureText: false,
-                  textInputStyle: TextInputType.text,
-                  isPass: false,
-                ),
-                const SizedBox(height: 40),
-                // Sign Up Button
-                GestureDetector(
-                  onTap: signUpUser,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    decoration: ShapeDecoration(
-                      color: blueColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
-                    ),
-                    child: Center(
-                      child: !_isLoading
-                          ? const Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          : const Center(
-                              child: CircularProgressIndicator(
-                                color: primaryColor,
-                              ),
-                            ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/app_logo.png',
+                    scale: 2,
+                  ),
+                  // Welcome Text
+                  const Text(
+                    "Join Us Today—Create Your Account!",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Already a Member?"),
-                    SizedBox(width: 5),
-                    GestureDetector(
-                      onTap: widget.ontap,
-                      child: Text(
-                        "Log in Now",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                  const SizedBox(height: 10),
+                  Stack(
+                    children: [
+                      _image != null
+                          ? CircleAvatar(
+                              backgroundImage: MemoryImage(_image!),
+                              radius: 64,
+                            )
+                          : const CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/images/profile.jpeg'),
+                              radius: 64,
+                            ),
+                      Positioned(
+                        bottom: -10,
+                        left: 80,
+                        child: IconButton(
+                          onPressed: selectimage,
+                          icon: const Icon(
+                            Icons.add_a_photo,
+                            color: Colors.blue,
+                          ),
                         ),
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  // Username
+                  MyTextField(
+                    controller: usernameController,
+                    hintText: "Enter your username",
+                    obscureText: false,
+                    textInputStyle: TextInputType.text,
+                    isPass: false,
+                  ),
+                  const SizedBox(height: 10),
+                  MyTextField(
+                    controller: emailController,
+                    hintText: "Enter your email",
+                    obscureText: false,
+                    textInputStyle: TextInputType.emailAddress,
+                    isPass: false,
+                  ),
+                  const SizedBox(height: 10),
+                  MyTextField(
+                    controller: passwordController,
+                    hintText: "Enter your password",
+                    obscureText: true,
+                    textInputStyle: TextInputType.visiblePassword,
+                    isPass: false,
+                  ),
+                  const SizedBox(height: 10),
+                  MyTextField(
+                    controller: confirmPasswordController,
+                    hintText: "Confirm your password",
+                    obscureText: true,
+                    textInputStyle: TextInputType.visiblePassword,
+                    isPass: false,
+                  ),
+                  const SizedBox(height: 10),
+                  MyTextField(
+                    controller: bioController,
+                    hintText: "Enter your bio",
+                    obscureText: false,
+                    textInputStyle: TextInputType.text,
+                    isPass: false,
+                  ),
+                  const SizedBox(height: 40),
+                  // Sign Up Button
+                  GestureDetector(
+                    onTap: signUpUser,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: blueColor,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Center(
+                        child: !_isLoading
+                            ? const Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            : const Center(
+                                child: CircularProgressIndicator(
+                                  color: primaryColor,
+                                ),
+                              ),
+                      ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 10),
-              ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Already a Member?"),
+                      const SizedBox(width: 5),
+                      GestureDetector(
+                        onTap: widget.ontap,
+                        child: const Text(
+                          "Log in Now",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
             ),
           ),
         ),

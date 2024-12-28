@@ -7,8 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_clone/Screens/Auth/cubit/auth_Page.dart';
 import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
 import 'package:insta_clone/Screens/Chat/chat_cubit.dart';
-import 'package:insta_clone/Screens/Heroes/cubit/superhero_cubit.dart';
+import 'package:insta_clone/Screens/Heroes/superhero_cubit.dart';
 import 'package:insta_clone/Screens/home/home_cubit.dart';
+import 'package:insta_clone/Screens/posts/addpost_cubit.dart';
 import 'package:insta_clone/Screens/profile/profile_cubit.dart';
 import 'package:insta_clone/firebase_options.dart';
 import 'Services/PushNotification/PushNotificationService .dart';
@@ -24,10 +25,14 @@ void main() async {
     FirebaseMessaging.onBackgroundMessage(backgroundHandler);
     await pushNotificationService.init();
     await pushNotificationService.initialize();
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   } catch (e) {
     print('Error initializing push notifications: $e');
   }
   runApp(const MyApp());
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class MyApp extends StatefulWidget {
@@ -84,6 +89,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => ChatCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AddpostCubit(),
         ),
       ],
       child: const MaterialApp(

@@ -28,7 +28,7 @@ class _CategoryCardState extends State<CategoryCard> {
               color: Colors.transparent,
               width: 2,
             ),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Colors.black26,
                 blurRadius: 5,

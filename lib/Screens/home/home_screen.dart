@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
 import 'package:insta_clone/Screens/home/nav_bar_home.dart';
-import 'package:insta_clone/Screens/posts/category_card.dart';
-import 'package:insta_clone/Screens/posts/post_card.dart';
+import 'package:insta_clone/Screens/posts/addpost.dart';
+import 'package:insta_clone/Screens/posts/components/category_card.dart';
+import 'package:insta_clone/Screens/posts/components/post_card.dart';
 
 import 'home_cubit.dart';
 
@@ -18,8 +19,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add_photo_alternate_outlined),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddPostScreen(),
+            ),
+          );
+        },
+      ),
       body: SafeArea(
         top: true,
         child: Container(
@@ -56,14 +67,13 @@ class _HomePageState extends State<HomePage> {
                                     CategoryCard(
                                       snap: snapshot.data!.docs[index],
                                     ))
-                            : Text("No Data Found");
+                            : const Text("No Data Found");
                       },
                     ),
                   ),
                   const SizedBox(
                     height: 5,
                   ),
-
                   Expanded(
                     child: StreamBuilder(
                       stream: FirebaseFirestore.instance
@@ -85,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                                 itemBuilder: (context, int index) => PostCard(
                                       snap: snapshot.data!.docs[index],
                                     ))
-                            : Text("No Data Found");
+                            : const Text("No Data Found");
                       },
                     ),
                   ),

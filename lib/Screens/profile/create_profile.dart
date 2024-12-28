@@ -15,17 +15,17 @@ class _CreateProfileState extends State<CreateProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
-          // TODO: implement listener
         },
         builder: (context, state) {
           return SafeArea(
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
               ),
-              child: Column(
+              child: const Column(
                 children: [
                   ProfileNavbar(),
                   CirccularandName(),

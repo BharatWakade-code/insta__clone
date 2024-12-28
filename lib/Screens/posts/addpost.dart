@@ -1,10 +1,12 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:insta_clone/Screens/Chat/components/nav_bar.dart';
+import 'package:insta_clone/Screens/posts/addpost_cubit.dart';
 import 'package:insta_clone/resources/firestore_methods.dart';
 import 'package:insta_clone/utils/colors.dart';
 import 'package:insta_clone/utils/utils.dart';
-import 'package:provider/provider.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
@@ -14,174 +16,159 @@ class AddPostScreen extends StatefulWidget {
 }
 
 class _AddPostScreenState extends State<AddPostScreen> {
-  TextEditingController discriptioncontroller = TextEditingController();
-  Uint8List? _file;
-  bool isLoading = false;
-
-  _selectimage(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return SimpleDialog(
-          title: Text("Add a Post"),
-          children: [
-            SimpleDialogOption(
-              padding: EdgeInsets.all(20),
-              child: Text('Take a photo'),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                Uint8List file = await pickImage(ImageSource.camera);
-                setState(() {
-                  _file = file;
-                });
-              },
-            ),
-            SimpleDialogOption(
-              padding: EdgeInsets.all(20),
-              child: Text('Choose From gallery'),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                Uint8List file = await pickImage(ImageSource.gallery);
-                setState(() {
-                  _file = file;
-                });
-              },
-            ),
-            SimpleDialogOption(
-              padding: EdgeInsets.all(20),
-              child: const Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(),
-            )
-          ],
-        );
-      },
-    );
-  }
+  TextEditingController descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
-    void postImage(String uid, String username, String profImage) async {
-      try {
-        setState(() {
-          isLoading = true;
-        });
-        String res = await FirebaseMethods().uploadPost(
-            discriptioncontroller.text, _file!, uid, username, profImage);
-        if (res == "success") {
-          setState(() {
-            isLoading = false;
-          });
-          showSnackBar('Posted', context);
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-          showSnackBar('Error in Posting', context);
-        }
-      } catch (e) {
-        e.toString();
-      }
-    }
-
-    void clearImage() {
-      setState(() {
-        _file = null;
-      });
-    }
-
+    final cubit = context.read<AddpostCubit>();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: mobileBackgroundColor,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: clearImage,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              // postImage(
-              //   userProvider.getUser.uid,
-              //   userProvider.getUser.username,
-              //   userProvider.getUser.photoUrl,
-              // );
-            },
-            child: const Text(
-              "Post",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent,
-                  fontSize: 16),
-            ),
-          )
-        ],
+      appBar: const NavBar(
+        pageName: 'Add Post',
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: isLoading ? const LinearProgressIndicator() : Container(),
-            ),
-            GestureDetector(
-              onTap: () => _selectimage(context),
-              child: Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.white,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    style: BorderStyle.solid,
-                    width: BorderSide.strokeAlignCenter,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: BlocConsumer<AddpostCubit, AddpostState>(
+          listener: (context, state) {
+            if (state is Addpostloaded) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Post added successfully!'),
+                  backgroundColor: Colors.green,
                 ),
-                width: MediaQuery.sizeOf(context).width,
-                child: _file == null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          'assets/images/profile.jpeg', // Default image path
-                          fit: BoxFit.cover,
-                        ),
+              );
+              descriptionController.clear();
+            } else if (state is AddpostError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Post Upload Error'),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            } else if (state is Imageloaded) {
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Image loaded'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            return Column(
+              children: [
+                state is Addpostloading
+                    ? const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        child: LinearProgressIndicator(),
                       )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image(
-                          image: MemoryImage(_file!),
-                          fit: BoxFit.cover,
+                    : Container(),
+                GestureDetector(
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (context) {
+                      return SimpleDialog(
+                        title: const Text("Add a Post"),
+                        children: [
+                          SimpleDialogOption(
+                            padding: const EdgeInsets.all(20),
+                            child: const Text('Take a photo'),
+                            onPressed: () async {
+                              cubit.captureimage();
+                            },
+                          ),
+                          SimpleDialogOption(
+                            padding: const EdgeInsets.all(20),
+                            child: const Text('Choose From gallery'),
+                            onPressed: () async {
+                              cubit.pickimage();
+                            },
+                          ),
+                          SimpleDialogOption(
+                            padding: const EdgeInsets.all(20),
+                            child: const Text('Cancel'),
+                            onPressed: () => Navigator.of(context).pop(),
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                  child: Container(
+                    height: 250,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[50],
+                      borderRadius: BorderRadius.circular(15),
+                      image: cubit.file != null
+                          ? DecorationImage(
+                              image: MemoryImage(cubit.file!),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
+                      border: Border.all(
+                        color: Colors.grey[700]!,
+                      ),
+                    ),
+                    child: cubit.file == null
+                        ? const Center(
+                            child: Icon(
+                              Icons.add_a_photo,
+                              color: Colors.grey,
+                              size: 50,
+                            ),
+                          )
+                        : null,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/profile.jpeg'),
+                      radius: 30,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: TextField(
+                        controller: descriptionController,
+                        maxLines: 4,
+                        decoration: InputDecoration(
+                          hintText: "Write a caption...",
+                          filled: true,
+                          fillColor: Colors.grey[50],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
                         ),
                       ),
-              ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/profile.jpeg'),
-                  radius: 30,
-                ),
-                Container(
-                  height: 80,
-                  width: MediaQuery.sizeOf(context).width - 120,
-                  color: mobileBackgroundColor,
-                  child: TextField(
-                    controller: discriptioncontroller,
-                    decoration: const InputDecoration(
-                      hintText: "Write a caption.....",
-                      border: InputBorder.none,
                     ),
-                    maxLines: 8,
-                  ),
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    cubit.postImage(descriptionController.text);
+                  },
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: blueColor,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: const Text(
+                        "Post",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
                 ),
               ],
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

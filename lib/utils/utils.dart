@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 
 pickImage(ImageSource source) async {
@@ -13,13 +12,5 @@ pickImage(ImageSource source) async {
 
 showSnackBar(String content, BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(content)));
-}
-
-void showLoadingMsg(String msg) async {
-  await EasyLoading.show(
-    status: msg,
-    maskType: EasyLoadingMaskType.black,
-    indicator: const CircularProgressIndicator()
-  );
 }
 

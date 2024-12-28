@@ -65,16 +65,15 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Logo
                   Image.asset(
                     'assets/images/app_logo.png',
-                    height: 80,
+                    scale: 2,
                   ),
-                  const SizedBox(height: 60),
                   // Welcome Text
                   const Text(
                     "Welcome Back!",
