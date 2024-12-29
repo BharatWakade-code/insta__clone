@@ -18,7 +18,7 @@ class _CategoryCardState extends State<CategoryCard> {
     return Row(
       children: [
         Container(
-          margin: EdgeInsets.only(left: 10),
+          margin: const EdgeInsets.only(left: 10),
           decoration: BoxDecoration(
             gradient: const LinearGradient(colors: [
               Color.fromRGBO(89, 141, 250, 1),

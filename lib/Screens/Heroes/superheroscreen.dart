@@ -65,20 +65,18 @@ class _SuperHeroScreenState extends State<SuperHeroScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               if (state is SuperHeroLoaded)
                 (state.heroesList?.isNotEmpty ?? true)
                     ? Expanded(
                         child: GridView.builder(
-                          padding: const EdgeInsets.all(12.0),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            mainAxisSpacing: 12,
-                            crossAxisSpacing: 12,
                             childAspectRatio: 0.7,
                           ),
                           itemCount: state.heroesList?.length,
+                          physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
                             final hero = state.heroesList?[index];
                             return InkWell(
@@ -93,9 +91,9 @@ class _SuperHeroScreenState extends State<SuperHeroScreen> {
                               },
                               child: Card(
                                 color: Colors.grey[50],
-                                elevation: 4,
+                                elevation: 1,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
                                   crossAxisAlignment:
@@ -103,7 +101,7 @@ class _SuperHeroScreenState extends State<SuperHeroScreen> {
                                   children: [
                                     ClipRRect(
                                       borderRadius: const BorderRadius.vertical(
-                                        top: Radius.circular(16),
+                                        top: Radius.circular(10),
                                       ),
                                       child: CachedNetworkImage(
                                         imageUrl: hero?.images?.sm ?? '',
@@ -134,7 +132,7 @@ class _SuperHeroScreenState extends State<SuperHeroScreen> {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          const SizedBox(height: 4),
+                                          // const SizedBox(height: 4),
                                           Text(
                                             hero?.biography?.firstAppearance ??
                                                 'Unknown Appearance',
@@ -145,27 +143,9 @@ class _SuperHeroScreenState extends State<SuperHeroScreen> {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          const SizedBox(height: 8),
-                                          Wrap(
-                                            spacing: 8,
-                                            runSpacing: 4,
-                                            children: [
-                                              _buildChip(
-                                                  "Intelligence",
-                                                  hero?.powerstats
-                                                      ?.intelligence),
-                                              _buildChip("Strength",
-                                                  hero?.powerstats?.strength),
-                                              _buildChip("Speed",
-                                                  hero?.powerstats?.speed),
-                                              _buildChip("Durability",
-                                                  hero?.powerstats?.durability),
-                                              _buildChip("Power",
-                                                  hero?.powerstats?.power),
-                                              _buildChip("Combat",
-                                                  hero?.powerstats?.combat),
-                                            ],
-                                          ),
+                                          // const SizedBox(height: 8),
+                                          _buildChip("Combat",
+                                              hero?.powerstats?.combat),
                                         ],
                                       ),
                                     ),
@@ -214,13 +194,46 @@ class _SuperHeroScreenState extends State<SuperHeroScreen> {
   }
 
   Widget _buildChip(String label, int? value) {
-    return Chip(
-      label: Text(
-        "$label: ${value ?? 'N/A'}",
-        style: const TextStyle(fontSize: 12, color: Colors.black87),
+    final normalizedValue =
+        (value ?? 0) / 100.0; // Normalize value between 0.0 and 1.0
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: Colors.black54,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: LinearProgressIndicator(
+                  value: normalizedValue.clamp(0.0, 1.0),
+                  backgroundColor: Colors.grey[300],
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    normalizedValue > 0.5 ? Colors.green : Colors.red,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                '${value ?? 0}%',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
-      backgroundColor: Colors.blueGrey[50],
-      side: BorderSide(color: Colors.blueGrey[300]!),
     );
   }
 }

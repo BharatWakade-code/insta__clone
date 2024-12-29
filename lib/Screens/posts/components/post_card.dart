@@ -21,13 +21,13 @@ class _PostCardState extends State<PostCard> {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(5),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
               blurRadius: 15,
               spreadRadius: 5,
-              offset: Offset(0, 5), // Shadow position
+              offset: const Offset(0, 5), // Shadow position
             ),
           ],
         ),
@@ -50,7 +50,7 @@ class _PostCardState extends State<PostCard> {
                     snap['posturl'],
                     width: double.infinity,
                     height: 220,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress == null) {
                         return child; // Image has finished loading
@@ -79,7 +79,7 @@ class _PostCardState extends State<PostCard> {
                   // Profile Image
                   ClipOval(
                     child: Image.network(
-                      snap['profimage'] ,
+                      snap['profimage'],
                       height: 40,
                       width: 40,
                       fit: BoxFit.cover,

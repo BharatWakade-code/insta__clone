@@ -1,12 +1,8 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:insta_clone/Screens/Chat/components/nav_bar.dart';
 import 'package:insta_clone/Screens/posts/addpost_cubit.dart';
-import 'package:insta_clone/resources/firestore_methods.dart';
 import 'package:insta_clone/utils/colors.dart';
-import 'package:insta_clone/utils/utils.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
@@ -22,6 +18,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   Widget build(BuildContext context) {
     final cubit = context.read<AddpostCubit>();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const NavBar(
         pageName: 'Add Post',
       ),
@@ -101,7 +98,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       image: cubit.file != null
                           ? DecorationImage(
                               image: MemoryImage(cubit.file!),
-                              fit: BoxFit.cover,
+                              fit: BoxFit.contain,
                             )
                           : null,
                       border: Border.all(

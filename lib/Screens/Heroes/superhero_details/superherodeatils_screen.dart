@@ -232,26 +232,41 @@ class PowerstatBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final normalizedValue = (value ?? 0) / 100.0;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
         children: [
           SizedBox(
-              width: 80,
-              child: Text(
-                label,
-                style: const TextStyle(fontWeight: FontWeight.w600),
-              )),
-          Expanded(
-            child: LinearProgressIndicator(
-              value: value / 100,
-              backgroundColor: Colors.grey[300],
-              color: Colors.blueAccent,
-              minHeight: 8,
+            width: 80,
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Colors.black54,
+              ),
             ),
           ),
-          const SizedBox(width: 10),
-          Text("${value.toInt()}"),
+          Expanded(
+            child: LinearProgressIndicator(
+              value: normalizedValue.clamp(0.0, 1.0),
+              backgroundColor: Colors.grey[300],
+              valueColor: AlwaysStoppedAnimation<Color>(
+                normalizedValue > 0.5 ? Colors.green : Colors.red,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            '${value ?? 0}%',
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
         ],
       ),
     );

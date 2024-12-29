@@ -21,7 +21,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add_photo_alternate_outlined),
         onPressed: () {
           Navigator.push(
             context,
@@ -30,6 +29,16 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
+        backgroundColor: const Color.fromRGBO(89, 141, 250, 1),
+        elevation: 10,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Icon(
+          Icons.add_photo_alternate_outlined,
+          size: 30,
+          color: Colors.white,
+        ),
       ),
       body: SafeArea(
         top: true,

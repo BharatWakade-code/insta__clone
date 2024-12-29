@@ -82,7 +82,17 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
+          IconButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+            },
+            icon: const Icon(
+              Icons.logout_rounded,
+              color: Colors.black,
+              size: 30,
+            ),
+          ),
         ],
       ),
       backgroundColor: Colors.white,

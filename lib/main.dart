@@ -32,8 +32,7 @@ void main() async {
   runApp(const MyApp());
 }
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-}
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
