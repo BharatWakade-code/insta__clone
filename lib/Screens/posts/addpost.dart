@@ -98,7 +98,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       image: cubit.file != null
                           ? DecorationImage(
                               image: MemoryImage(cubit.file!),
-                              fit: BoxFit.contain,
+                              fit: BoxFit.cover,
                             )
                           : null,
                       border: Border.all(

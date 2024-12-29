@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
@@ -6,6 +7,7 @@ import 'package:insta_clone/Screens/Chat/users_chat_screen.dart';
 import 'package:insta_clone/Screens/Heroes/superheroscreen.dart';
 import 'package:insta_clone/Screens/home/home_screen.dart';
 import 'package:insta_clone/Screens/login_signup_toggle.dart';
+import 'package:insta_clone/Screens/notification/notification_screen.dart';
 import 'package:insta_clone/Screens/posts/addpost.dart';
 import 'package:insta_clone/Screens/profile/create_profile.dart';
 import '../../../Services/PushNotification/PushNotificationService .dart';
@@ -50,6 +52,59 @@ class _BottomNavBarState extends State<BottomNavBar> {
     // AddPostScreen(),
     const CreateProfile(),
   ];
+  final List<Map<String, String>> _notifications = [];
+  int _notificationCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Listen for notifications when the app is in the foreground
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      final notification = {
+        'title': message.notification?.title ?? 'No Title',
+        'body': message.notification?.body ?? 'No Body',
+      };
+
+      // Add the notification only if it's not a duplicate
+      if (!_notifications.any((n) =>
+          n['title'] == notification['title'] &&
+          n['body'] == notification['body'])) {
+        setState(() {
+          _notifications.add(notification);
+          _notificationCount = _notifications.length;
+        });
+      }
+    });
+
+    // Listen for when the app is opened from a notification
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      final notification = {
+        'title': message.notification?.title ?? 'No Title',
+        'body': message.notification?.body ?? 'No Body',
+      };
+
+      // Only add the notification if it's not a duplicate
+      if (!_notifications.any((n) =>
+          n['title'] == notification['title'] &&
+          n['body'] == notification['body'])) {
+        setState(() {
+          _notifications.add(notification);
+          _notificationCount = _notifications.length;
+        });
+      }
+
+      // Navigate to the notification screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              NotificationScreen(notifications: _notifications),
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String appBarTitle;
@@ -82,7 +137,39 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
+          Stack(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.notifications),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          NotificationScreen(notifications: _notifications),
+                    ),
+                  );
+                },
+              ),
+              if (_notificationCount > 0)
+                Positioned(
+                  right: 10,
+                  top: 10,
+                  child: CircleAvatar(
+                    radius: 10,
+                    backgroundColor: Colors.red,
+                    child: Text(
+                      '$_notificationCount',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
           IconButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();

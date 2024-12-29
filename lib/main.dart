@@ -9,6 +9,7 @@ import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
 import 'package:insta_clone/Screens/Chat/chat_cubit.dart';
 import 'package:insta_clone/Screens/Heroes/superhero_cubit.dart';
 import 'package:insta_clone/Screens/home/home_cubit.dart';
+import 'package:insta_clone/Screens/notification/notifications_cubit.dart';
 import 'package:insta_clone/Screens/posts/addpost_cubit.dart';
 import 'package:insta_clone/Screens/profile/profile_cubit.dart';
 import 'package:insta_clone/firebase_options.dart';
@@ -91,6 +92,8 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => AddpostCubit(),
+        ),BlocProvider(
+          create: (context) => NotificationsCubit(),
         ),
       ],
       child: const MaterialApp(
