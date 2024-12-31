@@ -128,6 +128,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
         title: Text(
           appBarTitle,
           style: const TextStyle(

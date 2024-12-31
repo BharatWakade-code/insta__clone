@@ -26,7 +26,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: false,
       backgroundColor: Colors.white,
-      elevation: 0,
+      elevation: 0, surfaceTintColor: Colors.white,
     );
   }
 
