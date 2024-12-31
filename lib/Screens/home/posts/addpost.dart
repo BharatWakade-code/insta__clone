@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_clone/Screens/Chat/components/nav_bar.dart';
-import 'package:insta_clone/Screens/posts/addpost_cubit.dart';
+import 'package:insta_clone/Screens/home/posts/addpost_cubit.dart';
 import 'package:insta_clone/utils/colors.dart';
 
 class AddPostScreen extends StatefulWidget {

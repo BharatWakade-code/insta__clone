@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insta_clone/Screens/Chat/users_chat_screen.dart';
 import 'package:insta_clone/Screens/home/home_screen.dart';
-import 'package:insta_clone/Screens/posts/addpost.dart';
+import 'package:insta_clone/Screens/home/posts/addpost.dart';
 import 'package:insta_clone/Screens/profile/create_profile.dart';
 
 class BottomNavBar extends StatefulWidget {

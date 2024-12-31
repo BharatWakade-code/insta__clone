@@ -8,7 +8,7 @@ import 'package:insta_clone/Screens/Heroes/superheroscreen.dart';
 import 'package:insta_clone/Screens/home/home_screen.dart';
 import 'package:insta_clone/Screens/login_signup_toggle.dart';
 import 'package:insta_clone/Screens/notification/notification_screen.dart';
-import 'package:insta_clone/Screens/posts/addpost.dart';
+import 'package:insta_clone/Screens/home/posts/addpost.dart';
 import 'package:insta_clone/Screens/profile/create_profile.dart';
 import '../../../Services/PushNotification/PushNotificationService .dart';
 import 'package:google_nav_bar/google_nav_bar.dart';

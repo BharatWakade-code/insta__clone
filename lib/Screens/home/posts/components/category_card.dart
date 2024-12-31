@@ -20,6 +20,7 @@ class _CategoryCardState extends State<CategoryCard> {
         Container(
           margin: const EdgeInsets.only(left: 10),
           decoration: BoxDecoration(
+            color: Colors.black,
             gradient: const LinearGradient(colors: [
               Color.fromRGBO(89, 141, 250, 1),
               Color.fromRGBO(218, 89, 250, 1),
@@ -30,9 +31,9 @@ class _CategoryCardState extends State<CategoryCard> {
             ),
             boxShadow: const [
               BoxShadow(
-                color: Colors.black26,
+                color: Color.fromRGBO(89, 141, 250, 1),
                 blurRadius: 5,
-                spreadRadius: 1,
+                spreadRadius: 0.5,
                 offset: Offset(2, 2),
               ),
             ],

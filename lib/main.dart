@@ -10,7 +10,7 @@ import 'package:insta_clone/Screens/Chat/chat_cubit.dart';
 import 'package:insta_clone/Screens/Heroes/superhero_cubit.dart';
 import 'package:insta_clone/Screens/home/home_cubit.dart';
 import 'package:insta_clone/Screens/notification/notifications_cubit.dart';
-import 'package:insta_clone/Screens/posts/addpost_cubit.dart';
+import 'package:insta_clone/Screens/home/posts/addpost_cubit.dart';
 import 'package:insta_clone/Screens/profile/profile_cubit.dart';
 import 'package:insta_clone/firebase_options.dart';
 import 'Services/PushNotification/PushNotificationService .dart';

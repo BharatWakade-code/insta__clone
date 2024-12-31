@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:insta_clone/Components/photoview.dart';
-import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class PostCard extends StatefulWidget {
@@ -25,20 +24,6 @@ class _PostCardState extends State<PostCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Caption Section
-          if (snap['description'] != null &&
-              snap['description'].toString().isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Text(
-                snap['description'],
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
           // Image Section with Cover Image
           Stack(
             alignment: Alignment.center,
@@ -59,26 +44,29 @@ class _PostCardState extends State<PostCard> {
                     ),
                   );
                 },
-                child: Image.network(
-                  snap['posturl'],
+                child: Container(
+                  constraints:
+                      const BoxConstraints(minHeight: 400, maxHeight: 600),
                   width: double.infinity,
-                  height: 220,
-                  fit: BoxFit.contain,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child; // Image has finished loading
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  (loadingProgress.expectedTotalBytes ?? 1)
-                              : null,
-                          color: Colors.black,
-                        ),
-                      );
-                    }
-                  },
+                  child: Image.network(
+                    snap['posturl'],
+                    fit: BoxFit.contain,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    (loadingProgress.expectedTotalBytes ?? 1)
+                                : null,
+                            color: Colors.black,
+                          ),
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
             ],
@@ -103,13 +91,31 @@ class _PostCardState extends State<PostCard> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      snap['username'],
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          snap['username'],
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+
+                        // Caption Section
+                        if (snap['description'] != null &&
+                            snap['description'].toString().isNotEmpty)
+                          Text(
+                            snap['description'],
+                            style: TextStyle(
+                              fontSize: 8,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w500,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                      ],
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -148,6 +154,16 @@ class _PostCardState extends State<PostCard> {
                     ),
                     IconButton(
                       icon: const Icon(
+                        Icons.chat_bubble_outline_rounded,
+                        color: Colors.black,
+                        size: 22,
+                      ),
+                      onPressed: () {
+                        // Handle comment action
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(
                         Icons.bookmark_border,
                         color: Colors.black,
                         size: 22,
@@ -156,36 +172,11 @@ class _PostCardState extends State<PostCard> {
                         // Handle bookmark action
                       },
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.comment_outlined,
-                        color: Colors.grey[600],
-                        size: 22,
-                      ),
-                      onPressed: () {
-                        // Handle comment action
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    // Share Icon
-                    IconButton(
-                      icon: Icon(
-                        Icons.share_outlined,
-                        color: Colors.grey[600],
-                        size: 22,
-                      ),
-                      onPressed: () {
-                        // Handle share action
-                      },
-                    ),
                   ],
                 ),
               ],
             ),
           ),
-          const Divider(
-            thickness: 0.5,
-          )
         ],
       ),
     );
