@@ -3,11 +3,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:insta_clone/Screens/Chat/components/nav_bar.dart';
 import 'package:insta_clone/Services/Chat/chat_services.dart';
 import 'package:insta_clone/Services/PushNotification/sendPushMessage.dart';
+import 'package:insta_clone/Screens/Chat/chat_cubit.dart' as chatcubit;
 
 import '../../../Services/PushNotification/PushNotificationService .dart';
 
@@ -48,26 +50,34 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<chatcubit.ChatCubit>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: NavBar(
         pageName: widget.receiverEmail,
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            Expanded(child: _buildMessageList()),
-          ],
-        ),
+      body: BlocConsumer<chatcubit.ChatCubit, chatcubit.ChatState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          return SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                Expanded(child: _buildMessageList(cubit)),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildMessageList() {
+  Widget _buildMessageList(cubit) {
     String senderID = _auth.currentUser!.uid;
     return StreamBuilder<QuerySnapshot>(
-      stream: chatServices.getMessages(widget.receiverID, senderID),
+      stream: cubit.getMessages(widget.receiverID, senderID),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -126,7 +136,7 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
             ),
             inputOptions: const InputOptions(
               usesSafeArea: true,
-              sendButtonVisibilityMode: SendButtonVisibilityMode.always,
+              sendButtonVisibilityMode: SendButtonVisibilityMode.editing,
             ),
           ),
         );
