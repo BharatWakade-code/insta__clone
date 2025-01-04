@@ -1,9 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_clone/Screens/Chat/users_chat_screen.dart';
-import 'package:insta_clone/Screens/Heroes/superheroscreen.dart';
-import 'package:insta_clone/Screens/home/home_screen.dart';
-import 'package:insta_clone/Screens/profile/create_profile.dart';
 import 'package:insta_clone/Services/Auth/auth_services.dart';
 import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -45,13 +41,13 @@ class AuthCubit extends Cubit<AuthState> {
           email: email,
           password: password,
         );
-        String PhotoUrl = await StorageMethod()
+        String photoUrl = await StorageMethod()
             .uploadImageToStorage('ProfilePics', file, false);
 
         model.User user = model.User(
             email: email,
             uid: cred.user!.uid,
-            photoUrl: PhotoUrl,
+            photoUrl: photoUrl,
             username: username,
             bio: bio,
             followers: [],

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -41,11 +42,13 @@ class _CategoryCardState extends State<CategoryCard> {
               Radius.circular(40),
             ),
           ),
-          child: CircleAvatar(
-            backgroundImage: NetworkImage(
-              snap['photoUrl'],
+          child: ClipOval(
+            child: CachedNetworkImage(
+              imageUrl: snap['photoUrl'],
+              height: 70,
+              width: 70,
+              fit: BoxFit.cover,
             ),
-            radius: 34,
           ),
         ),
       ],

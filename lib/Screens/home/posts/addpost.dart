@@ -13,6 +13,7 @@ class AddPostScreen extends StatefulWidget {
 
 class _AddPostScreenState extends State<AddPostScreen> {
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 ),
               );
               descriptionController.clear();
+              Navigator.pop(context);
             } else if (state is AddpostError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -142,9 +144,24 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: locationController,
+                  decoration: InputDecoration(
+                    hintText: "Location",
+                    filled: true,
+                    fillColor: Colors.grey[50],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () {
-                    cubit.postImage(descriptionController.text);
+                    cubit.postImage(
+                        descriptionController.text, locationController.text);
                   },
                   child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),

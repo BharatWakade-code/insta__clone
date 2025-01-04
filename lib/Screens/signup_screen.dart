@@ -11,7 +11,7 @@ import 'package:insta_clone/utils/utils.dart';
 class SignupScreen extends StatefulWidget {
   final void Function()? ontap;
 
-  SignupScreen({super.key, required this.ontap});
+  const SignupScreen({super.key, required this.ontap});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -49,7 +49,7 @@ class _SignupScreenState extends State<SignupScreen> {
       if (res == "Success") {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => const HomePage()),
         );
       } else {
         ShowErrorMsg(res);
@@ -75,7 +75,7 @@ class _SignupScreenState extends State<SignupScreen> {
           title: Center(
             child: Text(
               message,
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
         );

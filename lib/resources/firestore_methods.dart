@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:insta_clone/models/post.dart';
 import 'package:insta_clone/resources/storage_methods.dart';
 import 'package:uuid/uuid.dart';
@@ -11,6 +10,7 @@ class FirebaseMethods {
 
   Future<String> uploadPost(
     String description,
+    String location,
     Uint8List file,
     String uid,
     String username,
@@ -18,16 +18,17 @@ class FirebaseMethods {
   ) async {
     String res = "Some Error Occoured";
     try {
-      String PhotoUrl =
+      String photUrl =
           await StorageMethod().uploadImageToStorage('posts', file, true);
-      String postid = Uuid().v1();
+      String postid = const Uuid().v1();
       Post post = Post(
           description: description,
+          location: location,
           uid: uid,
           username: username,
           postid: postid,
           datepublished: DateTime.now().toString(),
-          posturl: PhotoUrl,
+          posturl: photUrl,
           profimage: profimage,
           likes: []);
 

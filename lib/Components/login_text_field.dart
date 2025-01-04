@@ -30,7 +30,7 @@ class MyTextField extends StatelessWidget {
           enabledBorder: inputBorder,
           filled: true,
           hintText: hintText,
-          contentPadding: EdgeInsets.all(8),
+          contentPadding: const EdgeInsets.all(8),
         ),
         keyboardType: textInputStyle,
       ),

@@ -19,7 +19,7 @@ class _SearchState extends State<Search> {
       child: TextField(
         decoration: InputDecoration(
           border: InputBorder.none,
-          prefixIcon: Icon(
+          prefixIcon: const Icon(
             Icons.search,
           ),
           hintText: 'Search',

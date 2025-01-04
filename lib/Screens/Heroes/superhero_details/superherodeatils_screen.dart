@@ -7,7 +7,7 @@ import 'package:insta_clone/models/allsuperheroes.dart';
 class SuperHeroDetails extends StatefulWidget {
   final Superhero hero;
 
-  const SuperHeroDetails({Key? key, required this.hero}) : super(key: key);
+  const SuperHeroDetails({super.key, required this.hero});
 
   @override
   State<SuperHeroDetails> createState() => _SuperHeroDetailsState();
@@ -232,7 +232,7 @@ class PowerstatBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final normalizedValue = (value ?? 0) / 100.0;
+    final normalizedValue = (value) / 100.0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -260,7 +260,7 @@ class PowerstatBar extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            '${value ?? 0}%',
+            '$value%',
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,

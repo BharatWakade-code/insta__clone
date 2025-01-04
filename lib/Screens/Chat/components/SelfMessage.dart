@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SelfMessages extends StatefulWidget {
-  SelfMessages({super.key});
+  const SelfMessages({super.key});
 
   @override
   State<SelfMessages> createState() => _SelfMessagesState();

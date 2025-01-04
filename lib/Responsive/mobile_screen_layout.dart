@@ -14,11 +14,11 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int currentindex = 0;
   List screens = [
-    HomePage(),
+    const HomePage(),
     UserChatScreen(),
-    AddPostScreen(),
-    Scaffold(),
-    CreateProfile(),
+    const AddPostScreen(),
+    const Scaffold(),
+    const CreateProfile(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           });
         },
         shape: const CircleBorder(),
-        backgroundColor: Color.fromRGBO(53, 112, 236, 1),
+        backgroundColor: const Color.fromRGBO(53, 112, 236, 1),
         child: const Icon(
           Icons.add,
           color: Colors.white,
@@ -42,7 +42,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       bottomNavigationBar: BottomAppBar(
         elevation: 1,
         height: 60,
-        color: Color.fromRGBO(248, 250, 254, 1),
+        color: const Color.fromRGBO(248, 250, 254, 1),
         shape: const CircularNotchedRectangle(),
         notchMargin: 10,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -59,7 +59,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               icon: Icon(Icons.home_work_outlined,
                   size: 30,
                   color: currentindex == 0
-                      ? Color.fromRGBO(53, 112, 236, 1)
+                      ? const Color.fromRGBO(53, 112, 236, 1)
                       : Colors.grey[400]),
             ),
             IconButton(
@@ -71,7 +71,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               icon: Icon(Icons.chat_bubble_outline_rounded,
                   size: 30,
                   color: currentindex == 1
-                      ? Color.fromRGBO(53, 112, 236, 1)
+                      ? const Color.fromRGBO(53, 112, 236, 1)
                       : Colors.grey[400]),
             ),
             IconButton(
@@ -83,7 +83,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               icon: Icon(Icons.favorite_border,
                   size: 30,
                   color: currentindex == 3
-                      ? Color.fromRGBO(53, 112, 236, 1)
+                      ? const Color.fromRGBO(53, 112, 236, 1)
                       : Colors.grey[400]),
             ),
             IconButton(
@@ -95,7 +95,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               icon: Icon(Icons.person,
                   size: 30,
                   color: currentindex == 4
-                      ? Color.fromRGBO(53, 112, 236, 1)
+                      ? const Color.fromRGBO(53, 112, 236, 1)
                       : Colors.grey[400]),
             ),
           ],

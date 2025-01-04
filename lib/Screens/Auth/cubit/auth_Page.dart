@@ -1,14 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
 import 'package:insta_clone/Screens/Chat/users_chat_screen.dart';
 import 'package:insta_clone/Screens/Heroes/superheroscreen.dart';
 import 'package:insta_clone/Screens/home/home_screen.dart';
 import 'package:insta_clone/Screens/login_signup_toggle.dart';
 import 'package:insta_clone/Screens/notification/notification_screen.dart';
-import 'package:insta_clone/Screens/home/posts/addpost.dart';
 import 'package:insta_clone/Screens/profile/create_profile.dart';
 import '../../../Services/PushNotification/PushNotificationService .dart';
 import 'package:google_nav_bar/google_nav_bar.dart';

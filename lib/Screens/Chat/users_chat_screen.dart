@@ -5,7 +5,7 @@ import 'package:insta_clone/Screens/Chat/chat_cubit.dart';
 import 'package:insta_clone/Screens/Chat/components/ChatboxScreen.dart';
 
 class UserChatScreen extends StatefulWidget {
-  UserChatScreen({super.key});
+  const UserChatScreen({super.key});
 
   @override
   State<UserChatScreen> createState() => _UserChatScreenState();

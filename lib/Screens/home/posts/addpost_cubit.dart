@@ -23,13 +23,13 @@ class AddpostCubit extends Cubit<AddpostState> {
     file = null;
   }
 
-  void postImage(String description) async {
+  void postImage(String description, String location) async {
     try {
       emit(Addpostloading());
       final currentUser = await AuthSevices().getUserDetails();
       print('Current deatils $currentUser');
-      String res = await FirebaseMethods().uploadPost(description, file!,
-          currentUser.uid, currentUser.username, currentUser.photoUrl);
+      String res = await FirebaseMethods().uploadPost(description, location,
+          file!, currentUser.uid, currentUser.username, currentUser.photoUrl);
       if (res == "success") {
         emit(Addpostloaded());
         clearImage();
