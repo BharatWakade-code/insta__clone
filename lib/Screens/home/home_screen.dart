@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
-import 'package:insta_clone/Screens/home/nav_bar_home.dart';
 import 'package:insta_clone/Screens/home/posts/addpost.dart';
 import 'package:insta_clone/Screens/home/posts/components/category_card.dart';
 import 'package:insta_clone/Screens/home/posts/components/post_card.dart';
@@ -17,6 +15,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    context.read<HomeCubit>().fetchUserDetails();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<HomeCubit>();

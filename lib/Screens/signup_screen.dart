@@ -54,36 +54,43 @@ class _SignupScreenState extends State<SignupScreen> {
       } else {
         ShowErrorMsg(res);
       }
-
-      setState(() {
-        _isLoading = false;
-      });
     } on FirebaseAuthException catch (e) {
       ShowErrorMsg(e.message ?? "An error occurred. Please try again.");
     } catch (e) {
       ShowErrorMsg("An error occurred. Please try again.");
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
-  // ShowErrorMsg
   void ShowErrorMsg(String message) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Colors.grey[300],
-          title: Center(
-            child: Text(
-              message,
-              style: const TextStyle(color: Colors.black),
-            ),
+          backgroundColor: Colors.white,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          title: Text(
+            message,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.black, fontSize: 16),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                "OK",
+                style: TextStyle(color: Colors.blue),
+              ),
+            ),
+          ],
         );
       },
     );
   }
 
-  // OnPickedImage
   void selectimage() async {
     Uint8List im = await pickImage(ImageSource.gallery);
     setState(() {
@@ -92,40 +99,45 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   @override
-  dispose() {
-    super.dispose();
+  void dispose() {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     bioController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
                     'assets/images/app_logo.png',
-                    scale: 2,
+                    scale: 3,
                   ),
+                  //  const SizedBox(height: 16),
                   // Welcome Text
                   const Text(
-                    "Join Us Today—Create Your Account!",
+                    "Join Us Today!",
                     style: TextStyle(
-                      fontSize: 28,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.black87,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const Text(
+                    "Create your account to get started.",
+                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                  ),
+                  const SizedBox(height: 24),
                   Stack(
                     children: [
                       _image != null
@@ -139,90 +151,102 @@ class _SignupScreenState extends State<SignupScreen> {
                               radius: 64,
                             ),
                       Positioned(
-                        bottom: -10,
-                        left: 80,
-                        child: IconButton(
-                          onPressed: selectimage,
-                          icon: const Icon(
-                            Icons.add_a_photo,
-                            color: Colors.blue,
+                        bottom: 0,
+                        right: 4,
+                        child: GestureDetector(
+                          onTap: selectimage,
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: const BoxDecoration(
+                              color: Colors.blue,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                              size: 20,
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 30),
-                  // Username
+                  const SizedBox(height: 10),
+                  // TextFields
                   MyTextField(
                     controller: usernameController,
-                    hintText: "Enter your username",
+                    hintText: "Username",
                     obscureText: false,
                     textInputStyle: TextInputType.text,
                     isPass: false,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 16),
                   MyTextField(
                     controller: emailController,
-                    hintText: "Enter your email",
+                    hintText: "Email Address",
                     obscureText: false,
                     textInputStyle: TextInputType.emailAddress,
                     isPass: false,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 16),
                   MyTextField(
                     controller: passwordController,
-                    hintText: "Enter your password",
+                    hintText: "Password",
                     obscureText: true,
                     textInputStyle: TextInputType.visiblePassword,
-                    isPass: false,
+                    isPass: true,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 16),
                   MyTextField(
                     controller: confirmPasswordController,
-                    hintText: "Confirm your password",
+                    hintText: "Confirm Password",
                     obscureText: true,
                     textInputStyle: TextInputType.visiblePassword,
-                    isPass: false,
+                    isPass: true,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 16),
                   MyTextField(
                     controller: bioController,
-                    hintText: "Enter your bio",
+                    hintText: "Short Bio (Optional)",
                     obscureText: false,
                     textInputStyle: TextInputType.text,
                     isPass: false,
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 32),
                   // Sign Up Button
                   GestureDetector(
                     onTap: signUpUser,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       width: double.infinity,
-                      alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: blueColor,
+                        color: Colors.blue,
                         borderRadius: BorderRadius.circular(30),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blue.withOpacity(0.2),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
                       ),
-                      child: Center(
-                        child: !_isLoading
-                            ? const Text(
-                                "Sign Up",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            : const Center(
-                                child: CircularProgressIndicator(
-                                  color: primaryColor,
-                                ),
+                      child: !_isLoading
+                          ? const Text(
+                              "Sign Up",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                               ),
-                      ),
+                            )
+                          : const Center(
+                              child: CircularProgressIndicator(
+                                  color: Colors.white),
+                            ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -231,7 +255,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       GestureDetector(
                         onTap: widget.ontap,
                         child: const Text(
-                          "Log in Now",
+                          "Log In",
                           style: TextStyle(
                             color: Colors.blue,
                             fontWeight: FontWeight.bold,
@@ -240,7 +264,6 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
                 ],
               ),
             ),

@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_clone/Screens/Chat/users_chat_screen.dart';
 import 'package:insta_clone/Screens/Heroes/superheroscreen.dart';
+import 'package:insta_clone/Screens/home/home_cubit.dart';
 import 'package:insta_clone/Screens/home/home_screen.dart';
 import 'package:insta_clone/Screens/login_signup_toggle.dart';
 import 'package:insta_clone/Screens/notification/notification_screen.dart';
@@ -44,7 +46,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   // Define the screens list explicitly as List<Widget>
   List<Widget> screens = [
     const SuperHeroScreen(),
-    UserChatScreen(),
+    const UserChatScreen(),
     const HomePage(),
     // AddPostScreen(),
     const CreateProfile(),
@@ -150,18 +152,29 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 },
               ),
               if (_notificationCount > 0)
-                Positioned(
-                  right: 10,
-                  top: 10,
-                  child: CircleAvatar(
-                    radius: 10,
-                    backgroundColor: Colors.red,
-                    child: Text(
-                      '$_notificationCount',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            NotificationScreen(notifications: _notifications),
+                      ),
+                    );
+                  },
+                  child: Positioned(
+                    right: 10,
+                    top: 10,
+                    child: CircleAvatar(
+                      radius: 10,
+                      backgroundColor: Colors.red,
+                      child: Text(
+                        '$_notificationCount',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -169,8 +182,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ],
           ),
           IconButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
+            onPressed: () async {
+              context.read<HomeCubit>().currentUserUid = '';
+              await FirebaseAuth.instance.signOut();
             },
             icon: const Icon(
               Icons.logout_rounded,

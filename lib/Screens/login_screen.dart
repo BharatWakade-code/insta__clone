@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Logo
                   Image.asset(
                     'assets/images/app_logo.png',
-                    scale: 2,
+                    scale: 3,
                   ),
                   // Welcome Text
                   const Text(

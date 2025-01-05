@@ -17,6 +17,12 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   @override
+  void initState() {
+    context.read<HomeCubit>().fetchUserDetails();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var snap = widget.snap.data() as Map<String, dynamic>;
     final cubit = context.read<HomeCubit>();
@@ -36,8 +42,7 @@ class _PostCardState extends State<PostCard> {
                 children: [
                   InkWell(
                     onDoubleTap: () {
-                      cubit.likePost(
-                          snap['postid'], cubit.currentUserUid, snap['likes']);
+                      cubit.likePost(snap['postid'], snap['likes']);
                       cubit.togglelikebtn();
                     },
                     onTap: () {
@@ -203,9 +208,7 @@ class _PostCardState extends State<PostCard> {
                                     Icons.favorite_border,
                                   ),
                             onPressed: () async {
-                              // Handle like action
-                              cubit.likePost(snap['postid'],
-                                  cubit.currentUserUid, snap['likes']);
+                              cubit.likePost(snap['postid'], snap['likes']);
                             },
                           ),
                         ),

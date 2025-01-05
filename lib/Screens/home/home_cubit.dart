@@ -14,7 +14,7 @@ class HomeCubit extends Cubit<HomeState> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String currentUserUid = '';
   bool isLikeAnimating = false;
-
+  
   Future<void> fetchUserDetails() async {
     try {
       final currentUser = await AuthSevices().getUserDetails();
@@ -31,22 +31,35 @@ class HomeCubit extends Cubit<HomeState> {
     return feed;
   }
 
-  Future<void> likePost(String postid, String uid, List likes) async {
+ 
+
+  Future<void> likePost(String postid, List likes) async {
+    final currentUser = await AuthSevices().getUserDetails();
+    isLikeAnimating = likes.contains(currentUser.uid);
     try {
-      if (likes.contains(uid)) {
+      currentUserUid = currentUser.uid;
+
+      if (isLikeAnimating) {
+        likes.remove(currentUser.uid);
         await _firestore.collection('posts').doc(postid).update({
-          'likes': FieldValue.arrayRemove([uid])
+          'likes': FieldValue.arrayRemove([currentUser.uid])
         });
       } else {
+        likes.add(currentUser.uid);
         await _firestore.collection('posts').doc(postid).update({
-          'likes': FieldValue.arrayUnion([uid])
+          'likes': FieldValue.arrayUnion([currentUser.uid])
         });
       }
-    } catch (e) {}
+    } catch (e) {
+      if (isLikeAnimating) {
+        likes.add(currentUser.uid);
+      } else {
+        likes.remove(currentUser.uid);
+      }
+    }
   }
 
   void togglelikebtn() {
     isLikeAnimating = !isLikeAnimating;
-    // emit(IsLiked(isLiked: isLikeAnimating));
   }
 }
