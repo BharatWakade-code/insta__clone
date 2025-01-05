@@ -92,10 +92,6 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return const Center(child: Text("No messages yet."));
-        }
-
         final messages = snapshot.data!.docs.map((doc) {
           final data = doc.data() as Map<String, dynamic>;
           return types.TextMessage(

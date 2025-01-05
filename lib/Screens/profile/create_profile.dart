@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insta_clone/Screens/profile/componets/profile_post_card.dart';
 import 'package:insta_clone/Screens/profile/profile_cubit.dart';
 
 class CreateProfile extends StatefulWidget {
@@ -32,94 +35,107 @@ class _CreateProfileState extends State<CreateProfile> {
           }
           return SafeArea(
             child: SingleChildScrollView(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 20),
-                    Center(
-                      child: Column(
-                        children: [
-                          // Profile Picture
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundImage: NetworkImage(
-                              cubit.profile ??
-                                  'https://via.placeholder.com/150',
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          // Username
-                          Text(
-                            cubit.username,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          // Bio
-                          Text(
-                            cubit.bio,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    // Stats Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Column(
+                children: [
+                  // Stats Row
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Column(
                           children: [
+                            ClipOval(
+                              child: CachedNetworkImage(
+                                imageUrl: cubit.profile,
+                                height: 80,
+                                width: 80,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            // Username
                             Text(
-                              cubit.followers,
+                              cubit.username,
                               style: const TextStyle(
-                                fontSize: 18,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const Text('Followers'),
-                          ],
-                        ),
-                        Column(
-                          children: [
                             Text(
-                              cubit.following,
+                              cubit.bio,
+                              textAlign: TextAlign.center,
                               style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: Colors.grey,
                               ),
                             ),
-                            const Text('Following'),
                           ],
-                        ),
+                        ), // Bio
+
+                        _buildStatColumn("posts", cubit.postlength),
+                        _buildStatColumn("followers", cubit.followers),
+                        _buildStatColumn("following", cubit.following),
                       ],
                     ),
-                    const SizedBox(height: 20),
-                    // Email
-                    ListTile(
-                      leading: const Icon(Icons.email, color: Colors.black),
-                      title: Text(
-                        cubit.email ?? 'example@email.com',
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 20),
+                  // Feed List
+                  StreamBuilder(
+                    stream: cubit.getProfileList(),
+                    builder: (context,
+                        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                            snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                        return const Text("No Posts Yet");
+                      }
+                      return GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 0.7,
+                        ),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) => ProfileCard(
+                          snap: snapshot.data!.docs[index],
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           );
         },
       ),
+    );
+  }
+
+  Widget _buildStatColumn(String label, String value) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 5),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            color: Colors.grey,
+          ),
+        ),
+      ],
     );
   }
 }
