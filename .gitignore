@@ -37,10 +37,8 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
-assets/json/service_account.json
 
 # Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile
 /android/app/release
-assets/json/service_account.json
