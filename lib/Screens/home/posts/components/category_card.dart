@@ -1,0 +1,57 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
+class CategoryCard extends StatefulWidget {
+  final DocumentSnapshot snap;
+
+  const CategoryCard({super.key, required this.snap});
+
+  @override
+  State<CategoryCard> createState() => _CategoryCardState();
+}
+
+class _CategoryCardState extends State<CategoryCard> {
+  @override
+  Widget build(BuildContext context) {
+    var snap = widget.snap.data() as Map<String, dynamic>;
+
+    return Row(
+      children: [
+        Container(
+          margin: const EdgeInsets.only(left: 10),
+          decoration: BoxDecoration(
+            color: Colors.black,
+            gradient: const LinearGradient(colors: [
+              Color.fromRGBO(89, 141, 250, 1),
+              Color.fromRGBO(218, 89, 250, 1),
+            ]),
+            border: Border.all(
+              color: Colors.transparent,
+              width: 2,
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromRGBO(89, 141, 250, 1),
+                blurRadius: 5,
+                spreadRadius: 0.5,
+                offset: Offset(2, 2),
+              ),
+            ],
+            borderRadius: const BorderRadius.all(
+              Radius.circular(40),
+            ),
+          ),
+          child: ClipOval(
+            child: CachedNetworkImage(
+              imageUrl: snap['photoUrl'],
+              height: 70,
+              width: 70,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

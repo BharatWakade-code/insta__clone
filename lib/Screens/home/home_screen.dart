@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:insta_clone/Screens/home/nav_bar_home.dart';
-import 'package:insta_clone/Screens/posts/category_card.dart';
-import 'package:insta_clone/Screens/posts/post_card.dart';
-import 'package:insta_clone/utils/utils.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insta_clone/Screens/home/posts/addpost.dart';
+import 'package:insta_clone/Screens/home/posts/components/category_card.dart';
+import 'package:insta_clone/Screens/home/posts/components/post_card.dart';
+
+import 'home_cubit.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,26 +16,45 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  void initState() {
+    context.read<HomeCubit>().fetchUserDetails();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'UrbanistRegular',
-      ),
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: SafeArea(
-          top: true,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[50],
+    final cubit = context.read<HomeCubit>();
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddPostScreen(),
             ),
-            child: Column(
+          );
+        },
+        backgroundColor: const Color.fromRGBO(89, 141, 250, 1),
+        elevation: 10,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Icon(
+          Icons.add_photo_alternate_outlined,
+          size: 30,
+          color: Colors.white,
+        ),
+      ),
+      body: SafeArea(
+        top: true,
+        child: BlocConsumer<HomeCubit, HomeState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Navbar
-                const HomeNavbar(),
-                // ListView for profiles
                 SizedBox(
                   height: 100,
                   child: StreamBuilder(
@@ -55,21 +74,19 @@ class _HomePageState extends State<HomePage> {
                               scrollDirection: Axis.horizontal,
                               itemCount: snapshot.data!.docs.length,
                               itemBuilder: (context, int index) => CategoryCard(
-                                    snap: snapshot.data!.docs[index],
-                                  ))
-                          : Text("No Data Found");
+                                snap: snapshot.data!.docs[index],
+                              ),
+                            )
+                          : const Text("No Data Found");
                     },
                   ),
                 ),
                 const SizedBox(
                   height: 5,
                 ),
-
                 Expanded(
                   child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('posts')
-                        .snapshots(),
+                    stream: cubit.getFeedList(),
                     builder: (context,
                         AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                             snapshot) {
@@ -85,13 +102,13 @@ class _HomePageState extends State<HomePage> {
                               itemBuilder: (context, int index) => PostCard(
                                     snap: snapshot.data!.docs[index],
                                   ))
-                          : Text("No Data Found");
+                          : const Text("No Data Found");
                     },
                   ),
                 ),
               ],
-            ),
-          ),
+            );
+          },
         ),
       ),
     );

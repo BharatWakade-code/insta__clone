@@ -23,7 +23,6 @@ class ChatServices {
     ids.sort();
 
     String chatRoomID = ids.join('_');
-    
 
     await _firestore
         .collection("chat_rooms")
@@ -34,16 +33,5 @@ class ChatServices {
     ///    GetMessaages
   }
 
-  Stream<QuerySnapshot> getMessages(String userID, otherUserID) {
-    List<String> ids = [userID, otherUserID];
-    ids.sort();
-    String chatRoomID = ids.join('_');
-
-    return _firestore
-        .collection("chat_rooms")
-        .doc(chatRoomID)
-        .collection("messages")
-        .orderBy("timestamp", descending: false)
-        .snapshots();
-  }
+ 
 }

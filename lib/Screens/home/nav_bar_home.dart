@@ -1,7 +1,7 @@
+// ignore_for_file: avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:insta_clone/providers/user_provider.dart';
-import 'package:provider/provider.dart';
 
 class HomeNavbar extends StatefulWidget {
   const HomeNavbar({super.key});
@@ -12,11 +12,9 @@ class HomeNavbar extends StatefulWidget {
 
 class _HomeNavbarState extends State<HomeNavbar> {
   @override
-  Widget build(BuildContext context) {
-    final UserProvider userProvider = Provider.of<UserProvider>(context);
-    userProvider.refreshUser();
+  Widget build(BuildContext context) {    
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
       ),
       child: Padding(
@@ -27,7 +25,7 @@ class _HomeNavbarState extends State<HomeNavbar> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -51,7 +49,7 @@ class _HomeNavbarState extends State<HomeNavbar> {
                   width: 50,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         blurRadius: 40,
                         color: Color.fromRGBO(248, 230, 230, 1),
@@ -63,18 +61,18 @@ class _HomeNavbarState extends State<HomeNavbar> {
                       strokeAlign: 1,
                     ),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.search,
                     color: Color.fromRGBO(209, 223, 253, 1),
                   ),
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
-              child: Text(
+              child: const Text(
                 "Your Featured Stories",
                 style: TextStyle(
                   fontSize: 14,

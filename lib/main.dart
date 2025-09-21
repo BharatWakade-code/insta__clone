@@ -3,11 +3,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_clone/Services/Auth/auth_Page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insta_clone/Screens/Auth/cubit/auth_Page.dart';
+import 'package:insta_clone/Screens/Auth/cubit/auth_cubit.dart';
+import 'package:insta_clone/Screens/Chat/chat_cubit.dart';
+import 'package:insta_clone/Screens/Heroes/superhero_cubit.dart';
+import 'package:insta_clone/Screens/home/home_cubit.dart';
+import 'package:insta_clone/Screens/notification/notifications_cubit.dart';
+import 'package:insta_clone/Screens/home/posts/addpost_cubit.dart';
+import 'package:insta_clone/Screens/profile/profile_cubit.dart';
 import 'package:insta_clone/firebase_options.dart';
-import 'package:insta_clone/providers/user_provider.dart';
-import 'package:insta_clone/utils/colors.dart';
-import 'package:provider/provider.dart';
 import 'Services/PushNotification/PushNotificationService .dart';
 
 void main() async {
@@ -21,11 +26,14 @@ void main() async {
     FirebaseMessaging.onBackgroundMessage(backgroundHandler);
     await pushNotificationService.init();
     await pushNotificationService.initialize();
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   } catch (e) {
     print('Error initializing push notifications: $e');
   }
   runApp(const MyApp());
 }
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -65,15 +73,33 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
-      child: MaterialApp(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthCubit(),
+        ),
+        BlocProvider(
+          create: (context) => SuperheroCubit(),
+        ),
+        BlocProvider(
+          create: (context) => HomeCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ProfileCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ChatCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AddpostCubit(),
+        ),BlocProvider(
+          create: (context) => NotificationsCubit(),
+        ),
+      ],
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Insta Clone',
-        theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: mobileBackgroundColor,
-        ),
-        home: const AuthPage(),
+        home: AuthPage(),
       ),
     );
   }

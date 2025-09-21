@@ -1,40 +1,35 @@
 import 'package:flutter/material.dart';
 
-class NavBar extends StatelessWidget {
+class NavBar extends StatelessWidget implements PreferredSizeWidget {
   final String pageName;
 
   const NavBar({super.key, required this.pageName});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.black,
-            size: 30,
-          ),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Text(
-          pageName,
-          style: const TextStyle(
-            fontSize: 20,
-            fontFamily: 'UrbanistBold',
-            color: Colors.black,
-          ),
-        ),
-        const Spacer(),
-        const Icon(
-          Icons.more_horiz_rounded,
+    return AppBar(
+      // leading: IconButton(
+      //   onPressed: () => Navigator.of(context).pop(),
+      //   icon: const Icon(
+      //     Icons.arrow_back_rounded,
+      //     color: Colors.black,
+      //     size: 30,
+      //   ),
+      // ),
+      title: Text(
+        pageName,
+        style: const TextStyle(
+          fontSize: 20,
+          fontFamily: 'UrbanistBold',
           color: Colors.black,
-          size: 30,
         ),
-      ],
+      ),
+      centerTitle: false,
+      backgroundColor: Colors.white,
+      elevation: 0, surfaceTintColor: Colors.white,
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

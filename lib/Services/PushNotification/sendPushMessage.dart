@@ -35,7 +35,7 @@ Future<bool> sendPushMessage({
   
   client.close();
   if (response.statusCode == 200) {
-    return true; // Success!
+    return true; 
   }
 
   devtools.log(

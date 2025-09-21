@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class StorageMethod {
@@ -19,8 +18,8 @@ class StorageMethod {
 
     UploadTask uploadTask = ref.putData(file);
     TaskSnapshot snap = await uploadTask;
-    String Downloadurl = await snap.ref.getDownloadURL();
+    String downloadurl = await snap.ref.getDownloadURL();
 
-    return Downloadurl;
+    return downloadurl;
   }
 }
