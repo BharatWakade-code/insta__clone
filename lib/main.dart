@@ -11,7 +11,6 @@ import 'package:insta_clone/Screens/Heroes/superhero_cubit.dart';
 import 'package:insta_clone/Screens/home/home_cubit.dart';
 import 'package:insta_clone/Screens/notification/notifications_cubit.dart';
 import 'package:insta_clone/Screens/home/posts/addpost_cubit.dart';
-import 'package:insta_clone/Screens/object_detector_module/object_detector_cubit.dart';
 import 'package:insta_clone/Screens/profile/profile_cubit.dart';
 import 'package:insta_clone/firebase_options.dart';
 import 'Services/PushNotification/PushNotificationService .dart';
@@ -93,12 +92,8 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => AddpostCubit(),
-        ),
-        BlocProvider(
+        ),BlocProvider(
           create: (context) => NotificationsCubit(),
-        ),
-        BlocProvider(
-          create: (context) => ObjectDetectorCubit(),
         ),
       ],
       child: const MaterialApp(
