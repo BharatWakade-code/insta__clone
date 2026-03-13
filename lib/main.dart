@@ -98,7 +98,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'SiskoComic',
+        title: 'SiskoComic ',
         home: AuthPage(),
       ),
     );
