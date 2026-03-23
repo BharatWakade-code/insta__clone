@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,13 @@ import 'package:insta_clone/Screens/Heroes/superhero_cubit.dart';
 import 'package:insta_clone/Screens/home/home_cubit.dart';
 import 'package:insta_clone/Screens/notification/notifications_cubit.dart';
 import 'package:insta_clone/Screens/home/posts/addpost_cubit.dart';
+import 'package:insta_clone/Screens/number_plate_detector/number_plate_detector_cubit.dart';
+import 'package:insta_clone/Screens/number_plate_detector/number_plate_detector_screen.dart';
 import 'package:insta_clone/Screens/profile/profile_cubit.dart';
 import 'package:insta_clone/firebase_options.dart';
 import 'Services/PushNotification/PushNotificationService .dart';
+
+late List<CameraDescription> cameras;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +32,7 @@ void main() async {
     await pushNotificationService.init();
     await pushNotificationService.initialize();
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    cameras = await availableCameras();
   } catch (e) {
     print('Error initializing push notifications: $e');
   }
@@ -92,9 +98,14 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => AddpostCubit(),
-        ),BlocProvider(
+        ),
+        BlocProvider(
           create: (context) => NotificationsCubit(),
         ),
+        BlocProvider(
+          create: (_) => NumberPlateCubit(),
+          child: const CameraScreen(),
+        )
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

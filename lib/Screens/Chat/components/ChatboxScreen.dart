@@ -131,7 +131,6 @@ class _ChatboxScreenState extends State<ChatboxScreen> {
               ),
             ),
             inputOptions: const InputOptions(
-              usesSafeArea: true,
               sendButtonVisibilityMode: SendButtonVisibilityMode.editing,
             ),
           ),

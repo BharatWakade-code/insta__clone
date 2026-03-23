@@ -8,6 +8,7 @@ import 'package:insta_clone/Screens/home/home_cubit.dart';
 import 'package:insta_clone/Screens/home/home_screen.dart';
 import 'package:insta_clone/Screens/login_signup_toggle.dart';
 import 'package:insta_clone/Screens/notification/notification_screen.dart';
+import 'package:insta_clone/Screens/number_plate_detector/number_plate_detector_screen.dart';
 import 'package:insta_clone/Screens/profile/create_profile.dart';
 import '../../../Services/PushNotification/PushNotificationService .dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -50,6 +51,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const HomePage(),
     // AddPostScreen(),
     const CreateProfile(),
+    CameraScreen()
   ];
   final List<Map<String, String>> _notifications = [];
   int _notificationCount = 0;
@@ -120,6 +122,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
         break;
       case 3:
         appBarTitle = 'Profile';
+        break;
+      case 4:
+        appBarTitle = 'Detector';
         break;
       default:
         appBarTitle = 'Home';
@@ -234,6 +239,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 GButton(
                   icon: Icons.person_2,
                   text: 'Profile',
+                ),
+                GButton(
+                  icon: Icons.camera,
+                  text: 'Detector',
                 ),
               ],
               selectedIndex: _selectedIndex,
