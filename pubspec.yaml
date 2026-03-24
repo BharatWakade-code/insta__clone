@@ -53,7 +53,7 @@ dependencies:
   flutter_chat_ui: ^1.6.15
   shimmer: ^3.0.0
   image: ^4.1.7
-  camera: ^0.10.5+6
+  camera: ^0.9.4+19
   web_socket_channel: ^2.4.0
 
 dev_dependencies:
